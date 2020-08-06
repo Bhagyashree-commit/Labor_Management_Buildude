@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.labourmangement">
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Labour.LocationTracker"></activity>
+        <activity android:name=".Contractor.JobApplyDetails" />
+        <activity android:name=".Contractor.AppliedJobs" />
+
+       <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Labour.GetaddressIntentService" />
+        <activity android:name=".Labour.JobDetails" />
+        <activity android:name=".Contractor.PostJobs" />
+        <activity android:name=".Contractor.ContractorProfile" />
+        <activity android:name=".Contractor.VerifyPhoneContractor" />
+
+        <service
+            android:name=".Labour.LocationTrackerService"
+            android:enabled="true"
+            android:exported="true" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Labour.MapsActivity"
+            android:label="@string/title_activity_maps" />
+
+        <service
+            android:name=".Labour.RouteService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Labour.LiveTracking" />
+        <activity android:name=".Labour.JobOffer" />
+        <activity android:name=".Labour.LaborProfile" />
+        <activity android:name=".Labour.VerifyPhone" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".Admin.AdminDashboard" />
+        <activity android:name=".Contractor.ContractorDashboard" />
+        <activity android:name=".Contractor.MainActivityContractorLogin" />
+        <activity android:name=".Contractor.Register_contractor" />
+        <activity android:name=".Labour.Register_labour" />
+        <activity android:name=".Labour.MainActivityLaourLogin" />
+        <activity android:name=".Labour.LabourDashboard" />
+        <activity android:name=".SplashScreen" />
+        <activity android:name=".Admin.MainActivity">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN"
+                    android:theme="@style/NoActionBar" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

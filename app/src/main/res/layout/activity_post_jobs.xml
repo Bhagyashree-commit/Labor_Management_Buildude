@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Contractor.PostJobs">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/md_50"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageglobal"
+            android:layout_gravity="center"
+            android:src="@drawable/logo"></ImageView>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_box"
+        android:layout_marginTop="@dimen/md_25">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/jobtitle">
+
+            <EditText
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:id="@+id/editjobttitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                tools:ignore="MissingConstraints"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_box"
+        android:layout_marginTop="@dimen/md_25">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/jobdetails">
+
+            <EditText
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:id="@+id/editjobdetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                tools:ignore="MissingConstraints"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_box"
+        android:layout_marginTop="@dimen/md_25">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/jobwages">
+
+            <EditText
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:id="@+id/editjobwages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                tools:ignore="MissingConstraints"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_box"
+        android:layout_marginTop="@dimen/md_25">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/jobarea">
+
+            <EditText
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:id="@+id/editjobarea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                tools:ignore="MissingConstraints"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <Button
+        android:text="@string/post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submijobdata"
+        android:layout_margin="25dp"
+        android:textColor="#ffffff"
+        android:background="@color/colorAccent"
+        ></Button>
+</LinearLayout>
+</ScrollView>

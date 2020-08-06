@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Contractor.JobApplyDetails">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="40dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/md_25"
+            android:id="@+id/id"
+            android:visibility="invisible"
+            android:textSize="@dimen/md_20"
+            android:textColor="@color/colortext"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jobtitle1"
+            android:layout_marginTop="@dimen/md_25"
+            android:id="@+id/tv12"
+            android:textSize="@dimen/md_20"
+            android:textColor="@color/colortext"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jobtitle1"
+            android:layout_toRightOf="@+id/tv12"
+            android:layout_marginLeft="@dimen/md_25"
+            android:layout_marginTop="@dimen/md_25"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/fetchjobtitleapplied"
+            android:textSize="@dimen/md_20"
+            android:textColor="@color/colortext"
+            ></TextView>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/md_20">
+
+        <TextView
+            android:id="@+id/tv13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/md_20"
+            android:text="@string/jobdetails1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colortext"></TextView>
+        <TextView
+            android:id="@+id/fetchjobdetailsapplied"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/md_20"
+            android:layout_marginLeft="@dimen/md_25"
+            android:layout_toRightOf="@+id/tv13"
+            android:text="@string/jobdetails1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colortext"></TextView>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/tv14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/jobarea1"
+            android:textColor="@color/colortext"
+            android:textSize="@dimen/md_20"></TextView>
+        <TextView
+            android:id="@+id/fetchjobareaapplied"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv14"
+            android:layout_alignParentBottom="true"
+            android:text="@string/jobarea1"
+            android:textColor="@color/colortext"
+            android:textSize="@dimen/md_20"></TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/md_10">
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="-3dp"
+            android:text="@string/jobwages1"
+            android:textColor="@color/colortext"
+            android:textSize="@dimen/md_20" />
+
+        <TextView
+            android:id="@+id/fetchjobwagesapplied"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="@dimen/md_25"
+            android:layout_toRightOf="@+id/tv2"
+            android:textColor="@color/colortext"
+            android:textSize="@dimen/md_20"></TextView>
+
+    </RelativeLayout>
+    <!--
+
+            <Button
+                android:id="@+id/addtocart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="Add To Cart"
+                android:layout_marginTop="@dimen/md_25"
+                android:textColor="@color/colorBackground"
+                android:textStyle="bold"
+                android:background="@color/colorBackground"/>
+    -->
+
+    <Button
+        android:id="@+id/btnapprove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Approve"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorBackground"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/md_25"
+        />
+        <Button
+            android:id="@+id/btnreject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorBackground"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/md_25"
+
+            >
+        </Button>
+
+
+    </LinearLayout>
+
+</ScrollView>

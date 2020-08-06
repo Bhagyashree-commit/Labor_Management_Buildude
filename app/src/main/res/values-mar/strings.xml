@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">कामगार व्यवस्थापन</string>
+    <string name="email">ईमेल प्रविष्ट करा</string>
+    <string name="password">पासवर्ड टाका</string>
+    <string name="login">लॉग इन करा</string>
+    <string name="newuser">सदस्य नाही? येथे नोंदणी करा ..</string>
+    <string name="loginas">लॉगिंगं</string>
+    <string name="mobnum">मोबाइल नंबर प्रविष्ट करां</string>
+    <string name="existinguser">आधीपासूनच सदस्य आहात! येथे लॉग इन करा ..</string>
+    <string name="signup">साइन अप</string>
+    <string name="username">वापरकर्तानाव</string>
+    <string name="cpass">पासवर्डची पुष्टी करां</string>
+    <string name="labour">कामगार</string>
+    <string name="contractor">करार करणारा</string>
+
+    <string name="age">वय प्रविष्ट करा</string>
+    <string name="address">पोस्टल पत्ता प्रविष्ट करा</string>
+    <string name="gender">लिंग निवडा</string>
+    <string name="male">नर</string>
+    <string name="female">स्त्री</string>
+    <string name="wage">वेतन दर प्रविष्ट करा</string>
+    <string name="hour">कार्यरत तास प्रविष्ट करा</string>
+    <string name="transport">परिवहन मोड प्रविष्ट करा</string>
+    <string name="particulararea">विशेष क्षेत्रात कार्य करण्यास स्वारस्य आहे</string>
+    <string name="daily">दररोज</string>
+    <string name="weekly">साप्ताहिक</string>
+    <string name="monthly">मासिक</string>
+    <string name="category">कामगार श्रेणी निवडा</string>
+    <string name="welcomelabor">स्वागत आहे BUILDUDE लेबर डॅशबोर्ड कृपया नवीनतम नोकरी ऑफरसाठी खालील भरा</string>
+    <string name="register">साइन अप करा</string>
+    <string name="workmode">कार्य करण्यास स्वारस्य आहे</string>
+    <string name="welcomecontractor">स्वागत आहे BUILDUDE कंत्राटदार डॅशबोर्ड कृपया कामगार नियुक्त करण्यासाठी खालील भरा</string>
+    <string name="workinghour">साइटवर कार्यरत तास</string>
+    <string name="requiredlabor">मजूर आवश्यक आहे </string>
+    <string name="areaofoperation">ऑपरेशनचे क्षेत्र</string>
+    <string name="submit">जतन करा</string>
+    <string name="logout">
+बाहेर पडणे</string>
+    <string name="welocme">
+आपले स्वागत आहे </string>
+    <string name="presentedby">सादरकर्ते</string>
+
+
+
+
+    <string name="click">Click Below For Login / Registration</string>
+    <string name="title_activity_maps">Map</string>
+
+
+    <string name="title_activity_map_tracking">Map Route Tracking</string>
+    <string name="track_path_on_map">Walk and route your path on map</string>
+    <string name="permission_notice">Please note that your location permission is important if you want to draw your route on map while walking or running</string>
+    <string name="permission_title">Location Permission Denied</string>
+    <string name="cancel_permission_notice">Wow, please come back again when you need it and grant the permission</string>
+    <string name="starttracking">Start Tracking</string>
+    <string name="location">Your Location</string>
+    <string name="jobtitle">Enter Job Title</string>
+    <string name="jobdetails">Enter details</string>
+    <string name="jobwages">Enter Job Wages</string>
+    <string name="jobarea">Enter Job Area</string>
+
+    <string name="post">Post Job</string>
+    <string name="jobtitle1">Job Title : </string>
+    <string name="jobdetails1">Job Details : </string>
+    <string name="jobarea1">Job Location : </string>
+    <string name="jobwages1">Job Wages : </string>
+    <string name="clicktoapply">Click To Apply For The Job</string>
+
+</resources>
