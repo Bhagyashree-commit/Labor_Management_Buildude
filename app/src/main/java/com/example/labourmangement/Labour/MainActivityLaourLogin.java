@@ -70,6 +70,19 @@ public class MainActivityLaourLogin extends AppCompatActivity {
         // Session manager
         session = new SessionManager(getApplicationContext());
 
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+        session.createUserLoginSession(email,name);
+
+        Log.d(TAG, "Name11 " + name);
+        Log.d(TAG, "Email:11 " + email);
+
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
@@ -91,6 +104,7 @@ public class MainActivityLaourLogin extends AppCompatActivity {
                 // Check for empty data in the form
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // login user
+                    session.createUserLoginSession(email,name);
                     checkLogin(email, password);
                 } else {
                     // Prompt user to enter credentials
@@ -152,6 +166,8 @@ public class MainActivityLaourLogin extends AppCompatActivity {
                         String email = user.getString("email");
                         String created_at = user
                                 .getString("created_at");
+                    //   Log.d(TAG, "Name " + name.toString());
+                     //   Log.d(TAG, "Email: " + email.toString());
 
                         Intent intent = new Intent(MainActivityLaourLogin.this,
                                 LaborProfile.class);

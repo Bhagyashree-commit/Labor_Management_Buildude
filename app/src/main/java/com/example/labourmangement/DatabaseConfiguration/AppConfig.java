@@ -30,9 +30,11 @@ public class AppConfig {
 
     public static final String URL_FETCH_DEVICES = "http://example.i-tech.consulting/labour_management/GetRegisteredDevices.php";
 
- public  static  final  String URL_GETAPPLIEDJOBS="http://example.i-tech.consulting/labour_management/get_appliedjob.php";
+    public  static  final  String URL_GETAPPLIEDJOBS="http://example.i-tech.consulting/labour_management/get_appliedjob.php";
 
+     public static  final String URL_INSERTAPPROVAL="http://example.i-tech.consulting/labour_management/insert_approverequest.php";
 
+     public static final String URL_INSERTREJECTION="http://example.i-tech.consulting/labour_management/insert_rejectrequest.php";
 
 
 

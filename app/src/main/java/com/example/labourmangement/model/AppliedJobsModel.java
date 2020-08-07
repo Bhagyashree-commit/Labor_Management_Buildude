@@ -6,13 +6,17 @@ public class AppliedJobsModel {
     private String job_details;
     private String job_wages;
     private String job_area;
+    private String applied_by;
+    private String applied_date;
 
-    public AppliedJobsModel(String job_id,String job_title, String job_details, String job_wages, String job_area) {
+    public AppliedJobsModel(String job_id,String job_title, String job_details, String job_wages, String job_area, String applied_by, String applied_date) {
         this.job_id = this.job_id;
         this.job_title = this.job_title;
         this.job_details = this.job_details;
         this.job_wages = this.job_wages;
         this.job_area = this.job_area;
+        this.applied_by = this.applied_by;
+        this.applied_date =this.applied_date;
     }
 
     public AppliedJobsModel() {
@@ -58,6 +62,22 @@ public class AppliedJobsModel {
 
     public void setJob_area(String job_area) {
         this.job_area = job_area;
+    }
+
+    public String getApplied_by() {
+        return applied_by;
+    }
+
+    public void setApplied_by(String applied_by) {
+        this.applied_by = applied_by;
+    }
+
+    public String getApplied_date() {
+        return applied_date;
+    }
+
+    public void setApplied_date(String applied_by) {
+        this.applied_date = applied_date;
     }
 
 }

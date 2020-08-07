@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -54,9 +56,11 @@ public class LaborProfile extends AppCompatActivity implements ProfileAdapter.On
     private static final String TAG = LaborProfile.class.getSimpleName();
    
     ProgressDialog progressDialog;
-    ImageButton im_laborProfile,im_joboffer,im_labortracking,btnlivetracking;
+    ImageButton im_laborProfile,im_joboffer,im_labortracking,btnlivetracking,btnjobstatus,btnremark;
 ImageView im_labor_logout;
     SessionManager sessionManager;
+    TextView usernamedisplay;
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +74,28 @@ ImageView im_labor_logout;
         im_joboffer = (ImageButton) findViewById(R.id.btnlaborjoboffer);
         im_labortracking = (ImageButton) findViewById(R.id.btnlivetracking);
         btnlivetracking=(ImageButton)findViewById(R.id.btnlivetracking);
+        btnjobstatus=(ImageButton)findViewById(R.id.btnjobstatus);
+        btnremark=(ImageButton)findViewById(R.id.btnremark);
+        usernamedisplay=(TextView)findViewById(R.id.textfetchusername) ;
 
         sessionManager = new SessionManager((getApplicationContext()));
         progressDialog = new ProgressDialog(LaborProfile.this);
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         String token = FirebaseInstanceId.getInstance().getToken();
        /// SharedPrefManager.getInstance(LaborProfile.this).saveDeviceToken(token);
+
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+
+        Log.e(TAG, "name777777: " + name);
+
+        usernamedisplay.setText(email);
 
         Log.e(TAG, "Firebase token saved: " + token);
        sendTokenToServer();
@@ -107,6 +127,14 @@ ImageView im_labor_logout;
             @Override
             public void onClick(View view) {
                 sessionManager.logoutUser();
+            }
+        });
+
+        btnjobstatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(LaborProfile.this, JobStatusApproval.class);
+                startActivity(intent1);
             }
         });
     }

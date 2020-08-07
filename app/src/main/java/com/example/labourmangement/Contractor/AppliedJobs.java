@@ -88,6 +88,8 @@ public class AppliedJobs extends AppCompatActivity implements JobAdapter.OnItemC
                         appliedJobs.setJob_details(job.getString("job_details"));
                         appliedJobs.setJob_wages(job.getString("job_wages"));
                         appliedJobs.setJob_id(job.getString("job_id"));
+                        appliedJobs.setApplied_by(job.getString("applied_by"));
+                        appliedJobs.setApplied_date(job.getString("applied_date"));
 
                         joblist.add(appliedJobs);
                     }

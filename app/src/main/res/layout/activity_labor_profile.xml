@@ -37,6 +37,7 @@
         android:textSize="15dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:gravity="center"></TextView>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -131,13 +132,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="500dp"
         >
 
 
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/linearLayout5"
             android:layout_width="0dp"
             android:layout_height="175dp"
             android:orientation="horizontal"
@@ -168,7 +169,7 @@
 
 
                     <TextView
-                        android:id="@+id/textView44"
+                        android:id="@+id/textView445"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/btnlivetracking"
@@ -203,7 +204,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/textView121"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/btnlogoutlabor"
@@ -217,7 +218,105 @@
 
 
 
-                </RelativeLayout></androidx.cardview.widget.CardView></LinearLayout></androidx.constraintlayout.widget.ConstraintLayout>
+                </RelativeLayout></androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp"
+        >
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="175dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageButton
+                        android:id="@+id/btnjobstatus"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/jobpost"
+                        android:padding="5dp"
+                        tools:ignore="VectorDrawableCompat" />
+
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btnjobstatus"
+                        android:layout_marginTop="10dp"
+                        android:text="Job Status"
+                        android:layout_centerHorizontal="true"
+                        android:textAllCaps="false"
+                        android:textColor="#000"
+                        android:textSize="15dp"
+                        /></RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/btnremark"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        app:srcCompat="@drawable/remark"
+                        android:padding="5dp"
+                        tools:ignore="VectorDrawableCompat"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btnremark"
+                        android:layout_marginTop="10dp"
+                        android:text="Remark"
+                        android:layout_centerHorizontal="true"
+                        android:textAllCaps="false"
+                        android:textColor="#000"
+                        android:textSize="15dp"
+                        />
+
+
+
+                </RelativeLayout></androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
 </ScrollView>

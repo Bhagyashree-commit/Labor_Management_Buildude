@@ -27,7 +27,7 @@ public class SessionManager {
 
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
 
-    public static final String KEY_EMAIL = "email";
+    public static final String KEY_EMAIL = "mobilenum";
 
     public static final String KEY_NAME = "name";
 
@@ -42,12 +42,12 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createUserLoginSession( String email){
+    public void createUserLoginSession(String email, String name){
         // Storing login value as TRUE
         // editor.putBoolean(IS_LOGIN, true);
 
         editor.putString(KEY_EMAIL, email);
-
+        editor.putString(KEY_NAME, name);
         // commit changes
         editor.commit();
     }
@@ -100,6 +100,7 @@ public class SessionManager {
 
 
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
         // return user
         return user;

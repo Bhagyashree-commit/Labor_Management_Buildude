@@ -425,12 +425,55 @@ Button buttonSendPush;
 
     }
 
+
+
+
+    private void sendMultiplePush() {
+        final String title = "hiii";
+        final String message = "hello";
+        final String image = "heufhedfh";
+
+        progressDialog.setMessage("Sending Push");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SEND_MULTIPLE_PUSH,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(JobDetails.this, response, Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("title", title);
+                params.put("message", message);
+
+                if (!TextUtils.isEmpty(image))
+                    params.put("image", image);
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+
     @Override
     public void onClick(View view) {
 
         //starting send notification activity
         if(view == buttonSendPush){
-            sendSinglePush();
+            //sendSinglePush();
+            sendMultiplePush();
         }
     }
 

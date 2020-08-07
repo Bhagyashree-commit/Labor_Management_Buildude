@@ -18,11 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Labour.LocationTracker"></activity>
+        <activity android:name=".Labour.JobStatusApproval"></activity>
+        <activity android:name=".Labour.LocationTracker" />
         <activity android:name=".Contractor.JobApplyDetails" />
         <activity android:name=".Contractor.AppliedJobs" />
 
-       <service android:name=".MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -33,6 +34,7 @@
             </intent-filter>
         </service>
         <service android:name=".Labour.GetaddressIntentService" />
+
         <activity android:name=".Labour.JobDetails" />
         <activity android:name=".Contractor.PostJobs" />
         <activity android:name=".Contractor.ContractorProfile" />

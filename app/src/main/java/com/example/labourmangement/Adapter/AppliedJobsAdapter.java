@@ -55,6 +55,8 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
         holder.job_wages.setText(pu.getJob_wages());
         holder.job_area.setText(pu.getJob_area());
         holder.job_id.setText(pu.getJob_id());
+        holder.appliedby.setText(pu.getApplied_by());
+        holder.applieddate.setText(pu.getApplied_date());
 
         holder.jobtitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +68,8 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
                 intent.putExtra("job_wages",pu.getJob_wages());
                 intent.putExtra("job_area",pu.getJob_area());
                 intent.putExtra("job_id",pu.getJob_id());
+                intent.putExtra("applied_by",pu.getApplied_by());
+                intent.putExtra("applied_date",pu.getApplied_date());
 
                 context.startActivity(intent);
             }
@@ -80,6 +84,8 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
                 intent.putExtra("job_wages",pu.getJob_wages());
                 intent.putExtra("job_area",pu.getJob_area());
                 intent.putExtra("job_id",pu.getJob_id());
+                intent.putExtra("applied_by",pu.getApplied_by());
+                intent.putExtra("applied_date",pu.getApplied_date());
                 context.startActivity(intent);
             }
         });
@@ -93,6 +99,8 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
                 intent.putExtra("job_wages",pu.getJob_wages());
                 intent.putExtra("job_area",pu.getJob_area());
                 intent.putExtra("job_id",pu.getJob_id());
+                intent.putExtra("applied_by",pu.getApplied_by());
+                intent.putExtra("applied_date",pu.getApplied_date());
                 context.startActivity(intent);
             }
         });
@@ -107,6 +115,23 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
                 intent.putExtra("job_wages",pu.getJob_wages());
                 intent.putExtra("job_area",pu.getJob_area());
                 intent.putExtra("job_id",pu.getJob_id());
+                intent.putExtra("applied_by",pu.getApplied_by());
+                intent.putExtra("applied_date",pu.getApplied_date());
+                context.startActivity(intent);
+            }
+        });
+        holder.appliedby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Product Name: " + appliedjob.get(position));
+                Intent intent = new Intent(context, JobApplyDetails.class);
+                intent.putExtra("job_title", pu.getJob_title());
+                intent.putExtra("job_details", pu.getJob_details());
+                intent.putExtra("job_wages",pu.getJob_wages());
+                intent.putExtra("job_area",pu.getJob_area());
+                intent.putExtra("job_id",pu.getJob_id());
+                intent.putExtra("applied_by",pu.getApplied_by());
+                intent.putExtra("applied_date",pu.getApplied_date());
                 context.startActivity(intent);
             }
         });
@@ -124,6 +149,8 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
         public TextView job_wages;
         public  TextView job_area;
         public  TextView job_id;
+        public  TextView appliedby;
+        public  TextView applieddate;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -133,6 +160,8 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
             job_wages = (TextView) itemView.findViewById(R.id.job_wages);
             job_area = (TextView) itemView.findViewById(R.id.job_area);
             job_id = (TextView) itemView.findViewById(R.id.job_id);
+            appliedby = (TextView) itemView.findViewById(R.id.applied_by);
+            applieddate = (TextView) itemView.findViewById(R.id.applieddate);
 
         }
     }

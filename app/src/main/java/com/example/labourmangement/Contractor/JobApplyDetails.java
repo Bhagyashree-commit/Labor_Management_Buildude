@@ -2,6 +2,7 @@ package com.example.labourmangement.Contractor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.res.Configuration;
@@ -15,16 +16,34 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.labourmangement.DatabaseConfiguration.AppConfig;
 import com.example.labourmangement.DatabaseHelper.SessionManager;
 import com.example.labourmangement.DatabaseHelper.SessionManagerContractor;
 import com.example.labourmangement.Labour.JobDetails;
 import com.example.labourmangement.R;
 import com.example.labourmangement.model.JobModel;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class JobApplyDetails extends AppCompatActivity {
     private static final String TAG = JobApplyDetails.class.getSimpleName();
@@ -36,13 +55,14 @@ public class JobApplyDetails extends AppCompatActivity {
     SessionManagerContractor sessionManagerContractor;
     ArrayList<JobModel> mjoblist;
     ProgressDialog progressDialog;
-    String jobtitle,jobdetails,jobwages,jobarea,jobid;
-    TextView name,destcription,area,wages,id,textmgstitle,textmessagebody;
+    String jobtitle,jobdetails,jobwages,jobarea,jobid,appliedby,applieddate;
+    TextView name,destcription,area,wages,id,textmgstitle,textmessagebody,apppliedby,applied_date;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     private TextView textViewToken;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,25 +78,293 @@ public class JobApplyDetails extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(JobApplyDetails.this);
 
-        btn_approve=(Button)findViewById(R.id.btnapprove);
-        btn_reject=(Button)findViewById(R.id.btnreject);
+        btn_approve=(Button) findViewById(R.id.btnapprove);
+        btn_reject=(Button) findViewById(R.id.btnreject);
 
         btn_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sendrejection();
                 Toast.makeText(JobApplyDetails.this, "Application Rejected", Toast.LENGTH_LONG).show();
+                btn_approve.setEnabled(false);
+                btn_approve.setBackground(getResources().getDrawable(R.drawable.button_not_pressed));
+
             }
         });
 
         btn_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sendapproval();
                 Toast.makeText(JobApplyDetails.this, "Application Approved", Toast.LENGTH_LONG).show();
+                btn_reject.setEnabled(false);
+                btn_reject.setBackground(getResources().getDrawable(R.drawable.button_not_pressed));
 
             }
         });
 
     }
+
+
+
+
+    private void sendapproval() {
+        jobtitle = name.getText().toString();
+        jobdetails = destcription.getText().toString();
+        jobwages = wages.getText().toString();
+        jobarea = area.getText().toString();
+        jobid = id.getText().toString();
+        String status = "Approved";
+
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+
+
+        HashMap<String, String> user1 = sessionManagerContractor.getUserDetails();
+
+        // name
+        String namecon = user1.get(SessionManagerContractor.KEY_NAME);
+
+        // email
+        String emailcon = user1.get(SessionManagerContractor.KEY_EMAIL);
+
+        Log.d(TAG, "Email: " + emailcon);
+
+        // Showing progress dialog at user registration time.
+        progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
+        progressDialog.show();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_INSERTAPPROVAL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d(TAG, "Inserting Response: " + response.toString());
+                progressDialog.dismiss();
+                //hideDialog();
+                Log.i("tagconvertstr", "[" + response + "]");
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Toast.makeText(getApplicationContext(),
+                            jsonObject.getString("message") + response,
+                            Toast.LENGTH_LONG).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            System.out.println("time out and noConnection...................." + error);
+                            progressDialog.dismiss();
+                            // hideDialog();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong11", duration).show();
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                            System.out.println("AuthFailureError.........................." + error);
+                            // hideDialog();
+                            progressDialog.dismiss();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong22", duration).show();
+                        } else if (error instanceof ServerError) {
+                            System.out.println("server erroer......................." + error);
+                            //hideDialog();
+                            progressDialog.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong33", duration).show();
+                            //TODO
+                        } else if (error instanceof NetworkError) {
+                            System.out.println("NetworkError........................." + error);
+                            //hideDialog();
+                            progressDialog.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong44", duration).show();
+                            //TODO
+                        } else if (error instanceof ParseError) {
+                            System.out.println("parseError............................." + error);
+                            //hideDialog();
+                            progressDialog.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong55", duration).show();
+                            //TODO
+
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("job_id", jobid);
+                params.put("job_title", jobtitle);
+                params.put("job_details", jobdetails);
+                params.put("job_wages", jobwages);
+                params.put("job_area", jobarea);
+                params.put("applied_by", email);
+                params.put("approved_by", emailcon);
+                params.put("status", status);
+
+                return params;
+            }
+
+        };
+
+        // Creating RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(JobApplyDetails.this);
+
+        // Adding the StringRequest object into requestQueue.
+        requestQueue.add(stringRequest);
+
+    }
+
+
+
+    private void sendrejection() {
+        jobtitle = name.getText().toString();
+        jobdetails = destcription.getText().toString();
+        jobwages = wages.getText().toString();
+        jobarea = area.getText().toString();
+        jobid = id.getText().toString();
+        String status = "Reject";
+
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+
+        HashMap<String, String> user1 = sessionManagerContractor.getUserDetails();
+
+        // name
+        String name1 = user1.get(SessionManagerContractor.KEY_NAME);
+
+        // email
+        String email1 = user1.get(SessionManagerContractor.KEY_EMAIL);
+
+
+
+        // Showing progress dialog at user registration time.
+        progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
+        progressDialog.show();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_INSERTREJECTION, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d(TAG, "Inserting Response: " + response.toString());
+                progressDialog.dismiss();
+                //hideDialog();
+                Log.i("tagconvertstr", "[" + response + "]");
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Toast.makeText(getApplicationContext(),
+                            jsonObject.getString("message") + response,
+                            Toast.LENGTH_LONG).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            System.out.println("time out and noConnection...................." + error);
+                            progressDialog.dismiss();
+                            // hideDialog();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong11", duration).show();
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                            System.out.println("AuthFailureError.........................." + error);
+                            // hideDialog();
+                            progressDialog.dismiss();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong22", duration).show();
+                        } else if (error instanceof ServerError) {
+                            System.out.println("server erroer......................." + error);
+                            //hideDialog();
+                            progressDialog.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong33", duration).show();
+                            //TODO
+                        } else if (error instanceof NetworkError) {
+                            System.out.println("NetworkError........................." + error);
+                            //hideDialog();
+                            progressDialog.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong44", duration).show();
+                            //TODO
+                        } else if (error instanceof ParseError) {
+                            System.out.println("parseError............................." + error);
+                            //hideDialog();
+                            progressDialog.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobApplyDetails.this, "Something wrong55", duration).show();
+                            //TODO
+
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("job_id", jobid);
+                params.put("job_title", jobtitle);
+                params.put("job_details", jobdetails);
+                params.put("job_wages", jobwages);
+                params.put("job_area", jobarea);
+                params.put("applied_by", email);
+                params.put("rejected_by", email1);
+                params.put("status", status);
+
+                return params;
+            }
+
+        };
+
+        // Creating RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(JobApplyDetails.this);
+
+        // Adding the StringRequest object into requestQueue.
+        requestQueue.add(stringRequest);
+
+    }
+
+
+
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: checking for incoming intents.");
 
@@ -89,15 +377,19 @@ public class JobApplyDetails extends AppCompatActivity {
             jobwages = getIntent().getStringExtra("job_wages");
             jobarea = getIntent().getStringExtra("job_area");
             jobid = getIntent().getStringExtra("job_id");
+            appliedby = getIntent().getStringExtra("applied_by");
+            applieddate = getIntent().getStringExtra("applied_date");
 
-            setImage(jobtitle, jobdetails, jobwages, jobarea ,jobid);
+            setImage(jobtitle, jobdetails, jobwages, jobarea ,jobid, appliedby,applieddate);
+            Log.d(TAG, "applied dateoooooo"+applied_date);
             // setImage( image_path,product_name);
         }
 
 
     }
 
-    private void setImage(String job_title, String job_deatils, String job_wages, String job_area,String jobid) {
+    @SuppressLint("WrongViewCast")
+    private void setImage(String job_title, String job_deatils, String job_wages, String job_area, String jobid, String appliedby, String applieddate) {
         {
             Log.d(TAG, "setImage: setting te image and name to widgets.");
             //Intent intent=getIntent();
@@ -117,6 +409,14 @@ public class JobApplyDetails extends AppCompatActivity {
 
             id=findViewById(R.id.id);
             id.setText(jobid);
+
+            apppliedby =findViewById(R.id.fetchappliedbyname);
+            apppliedby.setText(appliedby);
+
+            applied_date=findViewById(R.id.fetchapplieddate);
+            applied_date.setText(applieddate);
+
+
 
         }
     }
