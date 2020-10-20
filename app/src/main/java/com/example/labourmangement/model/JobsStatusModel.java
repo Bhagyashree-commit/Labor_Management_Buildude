@@ -1,44 +1,37 @@
 package com.example.labourmangement.model;
 
-public class AppliedJobsModel {
+public class JobsStatusModel {
     private String job_id;
     private String job_title ;
     private String job_details;
     private String job_wages;
     private String job_area;
     private String applied_by;
-
-    public String getApproved_status() {
-        return approved_status;
-    }
-
-    public void setApproved_status(String approved_status) {
-        this.approved_status = approved_status;
-    }
-
-    private String applied_date;
     private String created_by;
-    private  String labor_name;
-    private String contractor_name;
-    private String approved_status;
+    private String applied_date;
 
-    public String getLabor_name() {
-        return labor_name;
+    public String getTrack_status() {
+        return track_status;
     }
 
-    public void setLabor_name(String labor_name) {
-        this.labor_name = labor_name;
+    public void setTrack_status(String track_status) {
+        this.track_status = track_status;
     }
 
-    public String getContractor_name() {
-        return contractor_name;
+    private String track_status;
+
+
+    public String getApproved_byname() {
+        return approved_byname;
     }
 
-    public void setContractor_name(String contractor_name) {
-        this.contractor_name = contractor_name;
+    public void setApproved_byname(String approved_byname) {
+        this.approved_byname = approved_byname;
     }
 
-    public AppliedJobsModel(String job_id, String job_title, String job_details, String job_wages, String job_area, String applied_by, String created_by, String applied_date, String contractor_name, String labor_name) {
+    private  String approved_byname;
+
+    public JobsStatusModel(String job_id,String job_title, String job_details, String job_wages, String job_area, String applied_by,String approved_by, String applied_date,String created_by) {
         this.job_id = this.job_id;
         this.job_title = this.job_title;
         this.job_details = this.job_details;
@@ -47,11 +40,10 @@ public class AppliedJobsModel {
         this.applied_by = this.applied_by;
         this.created_by = this.created_by;
         this.applied_date =this.applied_date;
-        this.contractor_name=this.contractor_name;
-        this.labor_name=this.labor_name;
+        this.approved_byname=this.approved_byname;
     }
 
-    public AppliedJobsModel() {
+    public JobsStatusModel() {
 
     }
 
@@ -96,23 +88,13 @@ public class AppliedJobsModel {
         this.job_area = job_area;
     }
 
-       public String getApplied_by() {
+    public String getApplied_by() {
         return applied_by;
     }
 
     public void setApplied_by(String applied_by) {
         this.applied_by = applied_by;
     }
-
-    public String getCreated_by() {
-        return created_by;
-    }
-
-    public void setCreated_by(String created_by) {
-        this.created_by = created_by;
-    }
-
-
 
     public String getApplied_date() {
         return applied_date;
@@ -122,4 +104,11 @@ public class AppliedJobsModel {
         this.applied_date = applied_date;
     }
 
+    public String getCreated_by() {
+        return created_by;
+    }
+
+    public void setCreated_by(String approved_by) {
+        this.created_by = approved_by;
+    }
 }

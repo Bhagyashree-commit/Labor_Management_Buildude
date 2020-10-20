@@ -1,23 +1,16 @@
 package com.example.labourmangement.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.labourmangement.Labour.JobOffer;
 import com.example.labourmangement.Labour.LaborProfile;
-import com.example.labourmangement.Labour.LabourDashboard;
-import com.example.labourmangement.Labour.LiveTracking;
 import com.example.labourmangement.R;
 import com.example.labourmangement.model.ProfileModel;
 
@@ -68,8 +61,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         private TextView textView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            img=(ImageView)itemView.findViewById(R.id.image);
-            textView=(TextView)itemView.findViewById(R.id.desc);
+            img= itemView.findViewById(R.id.image);
+            textView= itemView.findViewById(R.id.desc);
         }
     }
 }

@@ -14,6 +14,7 @@ import com.example.labourmangement.Admin.MainActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
+    private boolean isFirstAnimation = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 /*
@@ -25,20 +26,81 @@ public class SplashScreen extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        StartAnimations();
+        Animation hold = AnimationUtils.loadAnimation(this, R.anim.hold);
+        /* Translates ImageView from current position to its original position, scales it from
+        larger scale to its original scale.*/
+        final Animation translateScale = AnimationUtils.loadAnimation(this, R.anim.translate_scale);
+
+        final ImageView imageView = findViewById(R.id.ivLogo);
+
+
+        translateScale.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (!isFirstAnimation) {
+                    imageView.clearAnimation();
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                isFirstAnimation = true;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
+        hold.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imageView.clearAnimation();
+                imageView.startAnimation(translateScale);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        imageView.startAnimation(hold);
+
+
+
+        getSupportActionBar().hide();
+        //StartAnimations();
         new Handler().postDelayed(new Runnable() {
 
 
             @Override public void run() {
                 // This method will be executed once the timer is over
-                Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(i);
-                finish();
+//                Intent i = new Intent(SplashScreen.this, MainActivity.class);
+//                startActivity(i);
+//                finish();
             }
-        }, 4000);
+        }, 2000);
 
     }
-    private void StartAnimations() {
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+  /*  private void StartAnimations() {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
         anim.reset();
         LinearLayout l=(LinearLayout) findViewById(R.id.lin_lay);
@@ -51,5 +113,5 @@ public class SplashScreen extends AppCompatActivity {
         iv.clearAnimation();
         iv.startAnimation(anim);
 
-    }
+    }*/
 }

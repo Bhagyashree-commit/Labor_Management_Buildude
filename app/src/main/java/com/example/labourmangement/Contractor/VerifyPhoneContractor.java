@@ -3,6 +3,7 @@ package com.example.labourmangement.Contractor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,7 @@ public class VerifyPhoneContractor extends AppCompatActivity {
 
     //firebase auth object
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +52,13 @@ public class VerifyPhoneContractor extends AppCompatActivity {
 
 
         //getting mobile number from the previous activity
-        //and sending the verification code to the number
+      /*  //and sending the verification code to the number
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         String mobile = extras.getString("email");
         String name = extras.getString("name");
         sendVerificationCode(mobile);
-
+*/
 
 
         //if the automatic sms detection did not work, user can also enter the code manually
@@ -81,7 +83,7 @@ public class VerifyPhoneContractor extends AppCompatActivity {
     //the method is sending verification code
     //the country id is concatenated
     //you can take the country id as user input as well
-    private void sendVerificationCode(String mobile) {
+      private void sendVerificationCode(String mobile) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+91" + mobile,
                 60,

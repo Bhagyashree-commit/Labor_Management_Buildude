@@ -3,7 +3,7 @@ package com.example.labourmangement.Labour;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,11 +37,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.labourmangement.Admin.MainActivity;
 import com.example.labourmangement.Contractor.ContractorDashboard;
+import com.example.labourmangement.Contractor.PostJobs;
+import com.example.labourmangement.CustomLoader;
 import com.example.labourmangement.DatabaseConfiguration.AppConfig;
 import com.example.labourmangement.DatabaseHelper.SessionManager;
 import com.example.labourmangement.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,15 +54,15 @@ import java.util.Map;
 
 public class LabourDashboard extends AppCompatActivity {
     private static final String TAG = LabourDashboard.class.getSimpleName();
-EditText labor_uname,labor_mobnum,labor_age,labor_address,labor_wages,labor_workinghours,labor_interestedarea;
-String labornameholder,labormobnumholder,laborageholder,laborgenderholder,laborwageholder,laborinterestedon,laboraddressholder,laborworkinghourholder,laborspinnerholder,laborinterestedareaholder,labortransportholder;
+EditText labor_uname,labor_mobnum,labor_age,labor_address,labor_wages,labor_workinghours,labor_interestedarea,labor_refrename,labor_refercode,labor_interestarea1;
+String labornameholder,labormobnumholder,laborageholder,laborgenderholder,laborwageholder,laborinterestedon,laboraddressholder,laborworkinghourholder,laborspinnerholder,laborinterestedareaholder,labortransportholder,laborinterestedareaholder1;
 RadioGroup rg_gender,rg_interestedon;
 RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
     private SessionManager session;
     Button btnsubmit;
     MaterialBetterSpinner categoryspinner,modeoftransport,wageratespinner,workinghourspinner;
     int flag;
-    ProgressDialog progressDialog;
+   CustomLoader loader;
     String[] SPINNER_DATA = {"General labor",
            "RCC carpenter",
             "RCC fitter",
@@ -87,7 +90,7 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
         getSupportActionBar().setTitle("Labor Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
 
         labor_uname = (EditText) findViewById(R.id.etlabour_username);
         labor_mobnum = (EditText) findViewById(R.id.etlabour_mobilenum);
@@ -97,12 +100,18 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
         wageratespinner = (MaterialBetterSpinner) findViewById(R.id.wageratespinner);
 
         workinghourspinner = (MaterialBetterSpinner) findViewById(R.id.workinghourspinner);
-        labor_interestedarea = (EditText) findViewById(R.id.etlabour_workingarea);
+        labor_interestedarea = (EditText) findViewById(R.id.etlabour_workingarea1);
+        labor_interestarea1 = (EditText) findViewById(R.id.etlabour_workingarea2);
+        labor_refrename = (EditText) findViewById(R.id.edit_refrename);
+        labor_refercode = (EditText) findViewById(R.id.edit_refrcode);
+
         modeoftransport = (MaterialBetterSpinner) findViewById(R.id.category_modeoftransport);
         btnsubmit = (Button) findViewById(R.id.button_submitlabordata);
         rg_gender = (RadioGroup) findViewById(R.id.radiogroupgender);
         rg_interestedon = (RadioGroup) findViewById(R.id.radiogroupinterestworkon);
+        loader = new CustomLoader(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
 
+        getAllData();
 
         btnsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +145,8 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
                 }
                 if (flag == 0) {
                     getandset();
+
+
                 }
                 // getandset();
             }
@@ -151,8 +162,14 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
         // email
         String email = user.get(SessionManager.KEY_EMAIL);
 
+        String ref_name=user.get(SessionManager.KEY_REFNAME);
+
+        String ref_code=user.get(SessionManager.KEY_REFCODE);
+
         labor_uname.setText(name);
         labor_mobnum.setText(email);
+        labor_refercode.setText(ref_code);
+        labor_refrename.setText(ref_name);
 
         categoryspinner = (MaterialBetterSpinner) findViewById(R.id.category_spinner);
 
@@ -174,77 +191,48 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
         workinghourspinner.setAdapter(adapterwokinghour);
 
 
-        categoryspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        categoryspinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //laborspinnerholder = categoryspinner.getSelectedItem().toString();
-                laborspinnerholder = (String) parent.getItemAtPosition(position);
-                Toast.makeText
-                        (getApplicationContext(), "Selected : " + laborspinnerholder, Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                laborspinnerholder = (String) adapterView.getItemAtPosition(i);
             }
         });
-        progressDialog = new ProgressDialog(LabourDashboard.this);
 
-      /*  logout_btn = (Button) findViewById(R.id.btn_logoutlabor);
-
-
-        logout_btn.setOnClickListener(new View.OnClickListener() {
+        workinghourspinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(LabourDashboard.this);
-                alertDialog2.setTitle("Confirm Logout...");
-                alertDialog2.setMessage("Are you sure! you want Logout?");
-
-                alertDialog2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        session.logoutUser();
-
-                        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-                        editor.clear();
-                        editor.commit();
-                        Intent broadcastIntent = new Intent();
-                        broadcastIntent.setAction("com.package.ACTION_LOGOUT");
-                        sendBroadcast(broadcastIntent);
-
-                        Intent intent1 = new Intent(LabourDashboard.this, MainActivity.class);
-                        intent1.putExtra("finish", true);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent1);
-
-                    }
-                });
-
-                // Setting Negative "NO" Button
-                alertDialog2.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to invoke NO event
-                        Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-                    }
-                });
-
-                // Showing Alert Message
-                alertDialog2.show();
-
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                laborworkinghourholder = (String) adapterView.getItemAtPosition(i);
             }
         });
-    }*/
+        wageratespinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                laborwageholder = (String) adapterView.getItemAtPosition(i);
+            }
+        });
 
+        modeoftransport.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                labortransportholder = (String) adapterView.getItemAtPosition(i);
+            }
+        });
 
     }
     private void getandset(){
         GetValueFromEditText();
 
+
+        Log.d(TAG, "name  "+labornameholder);
+        Log.d(TAG, "email  "+labormobnumholder);
+        Log.d(TAG, "Age "+laborageholder);
+        Log.d(TAG, "Area "+laborinterestedareaholder);
+        Log.d(TAG, "Address "+laboraddressholder);
+        Log.d(TAG, "Interest "+laborinterestedon);
+        Log.d(TAG, "gender "+laborgenderholder);
+        Log.d(TAG, "wages "+laborwageholder);
+        Log.d(TAG, "transport "+labortransportholder);
+        Log.d(TAG, "category "+laborspinnerholder);
 
 
         if(labor_uname.getText().toString().length()==0){
@@ -265,28 +253,30 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
             labor_address.requestFocus();
 
         }
-        // Showing progress dialog at user registration time.
-        progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
-       progressDialog.show();
 
-        // Calling method to get value from EditText.
-        //GetValueFromEditText();
-
-        // Creating string request with post method.
+       loader.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_INSERTLABORDATA,new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         Log.d(TAG, "Inserting Response: " + response.toString());
-                        progressDialog.dismiss();
+                        loader.dismiss();
                         //hideDialog();
                         Log.i("tagconvertstr", "["+response+"]");
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+                            AlertDialog alertDialog = new AlertDialog.Builder(LabourDashboard.this).create();
+                            alertDialog.setTitle("Success ");
+                            alertDialog.setMessage(" Data Stored Successfull");
+                            alertDialog.setIcon(R.drawable.done);
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
 
-                            Toast.makeText(getApplicationContext(),
-                                    jsonObject.getString("message")+response,
-                                    Toast.LENGTH_LONG).show();
 
 
                         } catch (JSONException e) {
@@ -299,45 +289,44 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            System.out.println("time out and noConnection...................." + error);
-                            progressDialog.dismiss();
-                           // hideDialog();
+                            System.out.println("Time Out and NoConnection...................." + error);
+                            loader.dismiss();
+                            // hideDialog();
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(LabourDashboard.this, "Something wrong11", duration).show();
+                            Toast.makeText(LabourDashboard.this, "Connection Time Out.. Please Check Your Internet Connection", duration).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                             System.out.println("AuthFailureError.........................." + error);
-                           // hideDialog();
-                            progressDialog.dismiss();
+                            // hideDialog();
+                            loader.dismiss();
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(LabourDashboard.this, "Something wrong22", duration).show();
+                            Toast.makeText(LabourDashboard.this, "Your Are Not Authrized..", duration).show();
                         } else if (error instanceof ServerError) {
                             System.out.println("server erroer......................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(LabourDashboard.this, "Something wrong33", duration).show();
+                            Toast.makeText(LabourDashboard.this, "Server Error", duration).show();
                             //TODO
                         } else if (error instanceof NetworkError) {
                             System.out.println("NetworkError........................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(LabourDashboard.this, "Something wrong44", duration).show();
+                            Toast.makeText(LabourDashboard.this, "Please Check Your Internet Connection", duration).show();
                             //TODO
                         } else if (error instanceof ParseError) {
                             System.out.println("parseError............................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(LabourDashboard.this, "Something wrong55", duration).show();
-                            //TODO
+                            Toast.makeText(LabourDashboard.this, "Error While Data Parsing", duration).show();
 
+                            //TODO
                         }
                     }
                 }) {
@@ -355,7 +344,135 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
                 params.put("labor_wagerate", laborwageholder);
                 params.put("transport_mode", labortransportholder);
                 params.put("interest_work", laborinterestedon);
+                params.put("labor_workinghour",laborworkinghourholder);
                 params.put("particular_area", laborinterestedareaholder);
+                params.put("particular_area1", laborinterestedareaholder1);
+
+                return params;
+            }
+
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(LabourDashboard.this);
+        requestQueue.add(stringRequest);
+
+    }
+
+// Creating method to get value from EditText.
+public void GetValueFromEditText(){
+    labornameholder = labor_uname.getText().toString().trim();
+    labormobnumholder = labor_mobnum.getText().toString().trim();
+    laborageholder = labor_age.getText().toString().trim();
+    laborinterestedareaholder = labor_interestedarea.getText().toString().trim();
+    laborinterestedareaholder1 = labor_interestarea1.getText().toString().trim();
+    laboraddressholder =labor_address.getText().toString().trim();
+    laborinterestedon = ((RadioButton) findViewById(rg_interestedon.getCheckedRadioButtonId())).getText().toString();
+    laborgenderholder = ((RadioButton) findViewById(rg_gender.getCheckedRadioButtonId())).getText().toString();
+
+}
+
+
+    private void getAllData(){
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+
+        loader.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_GETALLDATAOFLABOR,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d(TAG, "Inserting Response: " + response.toString());
+                loader.dismiss();
+                //hideDialog();
+                Log.i("tagconvertstr", "["+response+"]");
+                try {
+                    //converting the string to json array object
+                    JSONArray array = new JSONArray(response);
+                    Log.d(TAG, array.toString());
+                    //traversing through all the object
+                    for (int i = 0; i < array.length(); i++) {
+
+                        //getting product object from json array
+                        JSONObject job = array.getJSONObject(i);
+                        labor_age.setText(job.getString("labor_age").toString());
+                        labor_address.setText(job.getString("labor_address").toString());
+                        categoryspinner.setText(job.getString("labor_category").toString());
+                        wageratespinner.setText(job.getString("labor_wagerate").toString());
+                        modeoftransport.setText(job.getString("transport_mode").toString());
+                        workinghourspinner.setText(job.getString("labor_workinghour").toString());
+                        labor_interestedarea.setText(job.getString("particular_area").toString());
+                        labor_interestarea1.setText(job.getString("particular_area1").toString());
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            System.out.println("Time Out and NoConnection...................." + error);
+                            loader.dismiss();
+                            // hideDialog();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(LabourDashboard.this, "Connection Time Out.. Please Check Your Internet Connection", duration).show();
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                            System.out.println("AuthFailureError.........................." + error);
+                            // hideDialog();
+                            loader.dismiss();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(LabourDashboard.this, "Your Are Not Authrized..", duration).show();
+                        } else if (error instanceof ServerError) {
+                            System.out.println("server erroer......................." + error);
+                            //hideDialog();
+                            loader.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(LabourDashboard.this, "Server Error", duration).show();
+                            //TODO
+                        } else if (error instanceof NetworkError) {
+                            System.out.println("NetworkError........................." + error);
+                            //hideDialog();
+                            loader.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(LabourDashboard.this, "Please Check Your Internet Connection", duration).show();
+                            //TODO
+                        } else if (error instanceof ParseError) {
+                            System.out.println("parseError............................." + error);
+                            //hideDialog();
+                            loader.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(LabourDashboard.this, "Error While Data Parsing", duration).show();
+
+                            //TODO
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("labor_mobnum", email);
+
 
                 return params;
             }
@@ -369,27 +486,6 @@ RadioButton rb_daily,rbmothly,rb_weekly,rb_male,rb_female;
         requestQueue.add(stringRequest);
 
     }
-
-// Creating method to get value from EditText.
-public void GetValueFromEditText(){
-    labornameholder = labor_uname.getText().toString().trim();
-    labormobnumholder = labor_mobnum.getText().toString().trim();
-    laborageholder = labor_age.getText().toString().trim();
-    laborwageholder = "400-500";
-   //laborwageholder= wageratespinner.getSelectedItem().
-    laborinterestedareaholder = labor_interestedarea.getText().toString().trim();
-    laborworkinghourholder = "9AM-10AM";
-    labortransportholder = "twoWheeler";
-    laboraddressholder =labor_address.getText().toString().trim();
-    laborspinnerholder="fitter";
-    laborinterestedon = ((RadioButton) findViewById(rg_interestedon.getCheckedRadioButtonId())).getText().toString();
-    laborgenderholder = ((RadioButton) findViewById(rg_gender.getCheckedRadioButtonId())).getText().toString();
-//labornameholder = labor_uname.getText().toString().trim();
-
-}
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -434,44 +530,7 @@ public void GetValueFromEditText(){
                 this.setContentView(R.layout.activity_labour_dashboard);
                 break;
 
-          /*  case R.id.logout:
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(LabourDashboard.this);
-                alertDialog2.setTitle("Confirm Logout...");
-                alertDialog2.setMessage("Are you sure! you want Logout?");
 
-                alertDialog2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        session.logoutUser();
-
-                        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-                        editor.clear();
-                        editor.commit();
-                        Intent broadcastIntent = new Intent();
-                        broadcastIntent.setAction("com.package.ACTION_LOGOUT");
-                        sendBroadcast(broadcastIntent);
-
-                        Intent intent1 = new Intent(LabourDashboard.this, MainActivity.class);
-                        intent1.putExtra("finish", true);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent1);
-
-                    }
-                });
-
-                // Setting Negative "NO" Button
-                alertDialog2.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to invoke NO event
-                        Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-                    }
-                });
-
-                // Showing Alert Message
-                alertDialog2.show();
-
-                return true;*/
             default:
                 break;
         }

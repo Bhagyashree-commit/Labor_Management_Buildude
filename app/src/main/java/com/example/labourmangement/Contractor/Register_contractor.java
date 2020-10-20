@@ -28,6 +28,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.labourmangement.CustomLoader;
 import com.example.labourmangement.DatabaseConfiguration.AppConfig;
 import com.example.labourmangement.DatabaseHelper.SQLiteHandler;
 import com.example.labourmangement.DatabaseHelper.SessionManager;
@@ -48,9 +49,8 @@ public class Register_contractor extends AppCompatActivity {
 
     Button btnregister;
     TextView alreadyauser;
-    EditText et_username,et_emailid,et_password ,et_mobilenumber,et_conpassword;
-    // SqliteHelper sqliteHelper;
-    private ProgressDialog pDialog;
+    EditText et_username,et_emailid,et_password ,et_mobilenumber,et_conpassword,et_referralcode,et_referralname;
+    CustomLoader loader;
     private SessionManagerContractor sessioncon;
     private SQLiteHandler db;
     String  namePattern = "[a-zA-Z]+";
@@ -60,17 +60,20 @@ public class Register_contractor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_contractor);
+        getSupportActionBar().hide();
         btnregister=(Button)findViewById(R.id.button_registerapp);
         alreadyauser=(TextView)findViewById(R.id.textView_existing_user);
         et_emailid=(EditText)findViewById(R.id.editTextregisteremail);
         et_password=(EditText)findViewById(R.id.editTextregisterpassword);
         et_username=(EditText)findViewById(R.id.editTextregistername);
         et_conpassword=(EditText)findViewById(R.id.editTextregisterconfirmpassword);
+        et_referralcode=(EditText)findViewById(R.id.editrefercodeC);
+        et_referralname=(EditText)findViewById(R.id.editrefrednameC);
 
 
-        // Progress dialog
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        loader = new CustomLoader(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+
+        loader.setCancelable(false);
 
         // Session manager
         sessioncon = new SessionManagerContractor(getApplicationContext());
@@ -94,6 +97,8 @@ public class Register_contractor extends AppCompatActivity {
                 String email = et_emailid.getText().toString().trim();
                 String password = et_password.getText().toString().trim();
                 String cpassword = et_conpassword.getText().toString().trim();
+                String refName = et_referralname.getText().toString().trim();
+                String refCode = et_referralcode.getText().toString().trim();
 
                 flag=0;
                 if(et_username.getText().toString().length()==0 || et_username.getText().toString().trim().matches(namePattern)){
@@ -111,7 +116,7 @@ public class Register_contractor extends AppCompatActivity {
                 }
 
                 flag=0;
-                if(email.isEmpty() || email.length() < 10){
+                if(et_emailid.getText().toString().length() < 10){
                     et_emailid.setError(" Mobile number should be valid");
                     et_emailid.requestFocus();
                     flag=1;
@@ -125,16 +130,8 @@ public class Register_contractor extends AppCompatActivity {
                     flag=1;
                 }
                 if(flag==0){
-                    registerUser(name,email,password);
+                    registerUser(name,email,password,refName,refCode);
                 }
-
-               /* if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name,email,password);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
-                            .show();
-                }*/
             }
         });
 
@@ -156,11 +153,11 @@ public class Register_contractor extends AppCompatActivity {
 
 
     private void registerUser(final String name, final String email,
-                              final String password) {
+                              final String password,final String refname,final String refcode) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
+String role="contractor";
 
-        pDialog.setMessage("Registering ...");
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -182,26 +179,28 @@ public class Register_contractor extends AppCompatActivity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
+                        String role = user.getString("role");
                         String created_at = user
                                 .getString("created_at");
 
+                        String refName = user.getString("ref_name");
+                        String refCode = user.getString("ref_code");
+
+                        sessioncon.createUserLoginSession(email,name,role,refName,refCode);
+                        Log.d(TAG, "Email contractor"+email);
+                        Log.d(TAG, "name contractor "+name);
+                        Log.d(TAG, "role contractor "+role);
                         // Inserting row in users table
                         db.addUser(name, email, uid, created_at);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
-                        Bundle extras = new Bundle();
-                        extras.putString("email", email);
-                        extras.putString("name", name);
-                        // Launch login activity
+
                         Intent intent = new Intent(
                                 Register_contractor.this,
-                                VerifyPhoneContractor.class);
-                        intent.putExtras(extras);
-                        //  intent.putExtra(extras);
-                        // intent.putExtra("name", name);
+                                MainActivityContractorLogin.class);
+
                         startActivity(intent);
                         finish();
-                        // Launch login activity
                     } else {
 
                         // Error occurred in registration. Get the error
@@ -219,47 +218,44 @@ public class Register_contractor extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                /*Log.e(TAG, "Registration Error null: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();*/
-
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    System.out.println("time out and noConnection...................." + error);
-                    pDialog.dismiss();
+                    System.out.println("Time Out and NoConnection...................." + error);
+                    loader.dismiss();
+                    // hideDialog();
                     int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(Register_contractor.this, "Something wrong11", duration).show();
+                    Toast.makeText(Register_contractor.this, "Connection Time Out.. Please Check Your Internet Connection", duration).show();
                 } else if (error instanceof AuthFailureError) {
                     //TODO
                     System.out.println("AuthFailureError.........................." + error);
-
-                    pDialog.dismiss();
+                    // hideDialog();
+                    loader.dismiss();
                     int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(Register_contractor.this, "Something wrong22", duration).show();
+                    Toast.makeText(Register_contractor.this, "Your Are Not Authrized..", duration).show();
                 } else if (error instanceof ServerError) {
                     System.out.println("server erroer......................." + error);
-                    pDialog.dismiss();
+                    //hideDialog();
+                    loader.dismiss();
 
                     int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(Register_contractor.this, "Something wrong33", duration).show();
+                    Toast.makeText(Register_contractor.this, "Server Error", duration).show();
                     //TODO
                 } else if (error instanceof NetworkError) {
                     System.out.println("NetworkError........................." + error);
-
-                    pDialog.dismiss();
+                    //hideDialog();
+                    loader.dismiss();
 
                     int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(Register_contractor.this, "Something wrong44", duration).show();
+                    Toast.makeText(Register_contractor.this, "Please Check Your Internet Connection", duration).show();
                     //TODO
                 } else if (error instanceof ParseError) {
                     System.out.println("parseError............................." + error);
-
-                    pDialog.dismiss();
+                    //hideDialog();
+                    loader.dismiss();
 
                     int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(Register_contractor.this, "Something wrong55", duration).show();
-                    //TODO
+                    Toast.makeText(Register_contractor.this, "Error While Data Parsing", duration).show();
 
+                    //TODO
                 }
             }
         }) {
@@ -271,6 +267,9 @@ public class Register_contractor extends AppCompatActivity {
                 params.put("name", name);
                 params.put("email", email);
                 params.put("password", password);
+                params.put("role",role);
+                params.put("ref_name",refname);
+                params.put("ref_code",refcode);
 
                 return params;
             }
@@ -290,13 +289,13 @@ public class Register_contractor extends AppCompatActivity {
     }
 
         private void showDialog() {
-            if (!pDialog.isShowing())
-                pDialog.show();
+            if (!loader.isShowing())
+                loader.show();
         }
 
         private void hideDialog() {
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            if (loader.isShowing())
+                loader.dismiss();
         }
 
     @Override

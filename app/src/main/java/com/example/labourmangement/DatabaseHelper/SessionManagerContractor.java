@@ -19,6 +19,7 @@ public class SessionManagerContractor {
     Context _context;
 
     // Shared pref mode
+
     int PRIVATE_MODE = 0;
 
     // Shared preferences file name
@@ -29,6 +30,13 @@ public class SessionManagerContractor {
     public static final String KEY_EMAIL = "email";
 
     public static final String KEY_NAME = "name";
+
+    public static final String KEY_ROLE = "role";
+
+    public static final String KEY_REFNAME= "ref_name";
+
+    public static final String KEY_REFCODE= "ref_code";
+
 
 
 
@@ -41,11 +49,15 @@ public class SessionManagerContractor {
     /**
      * Create login session
      * */
-    public void createUserLoginSession( String email){
+    public void createUserLoginSession( String email,String name,String role,String ref_code,String ref_name){
         // Storing login value as TRUE
         // editor.putBoolean(IS_LOGIN, true);
 
         editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_NAME, name);
+        editor.putString(KEY_ROLE,role);
+        editor.putString(KEY_REFCODE,ref_code);
+        editor.putString(KEY_REFNAME,ref_name);
 
         // commit changes
         editor.commit();
@@ -99,6 +111,12 @@ public class SessionManagerContractor {
 
 
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_ROLE, pref.getString(KEY_ROLE, null));
+        user.put(KEY_REFCODE,pref.getString(KEY_REFCODE,null));
+        user.put(KEY_REFNAME,pref.getString(KEY_REFNAME,null));
+
+
 
         // return user
         return user;

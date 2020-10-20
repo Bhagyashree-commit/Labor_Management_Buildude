@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.labourmangement.CustomLoader;
 import com.example.labourmangement.DatabaseConfiguration.AppConfig;
 import com.example.labourmangement.DatabaseHelper.SQLiteHandler;
 import com.example.labourmangement.DatabaseHelper.SessionManager;
@@ -39,30 +40,22 @@ public class MainActivityLaourLogin extends AppCompatActivity {
     private static final String TAG = MainActivityLaourLogin.class.getSimpleName();
     Button btnlogin;
     TextView textexistinguser;
-    TextInputLayout textInputLayoutEmail;
-    TextInputLayout textInputLayoutPassword;
-    private ProgressDialog pDialog;
+  CustomLoader loader;
     private SessionManager session;
-    // private SqliteHelper db;
     EditText edit_name, edit_password;
     private SQLiteHandler db;
-    Button linktoregister;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_laour_login);
-
+        getSupportActionBar().hide();
         btnlogin = (Button) findViewById(R.id.button_loginapp122);
         textexistinguser = (TextView) findViewById(R.id.textView_new_user1);
         edit_name = (EditText) findViewById(R.id.editTextLoginName);
         edit_password = (EditText) findViewById(R.id.editTextLoginpassword);
-
-
-
         // Progress dialog
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        loader = new CustomLoader(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+
 
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -70,31 +63,16 @@ public class MainActivityLaourLogin extends AppCompatActivity {
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-        HashMap<String, String> user = session.getUserDetails();
-
-        // name
-        String name = user.get(SessionManager.KEY_NAME);
-
-        // email
-        String email = user.get(SessionManager.KEY_EMAIL);
-
-        session.createUserLoginSession(email,name);
-
-        Log.d(TAG, "Name11 " + name);
-        Log.d(TAG, "Email:11 " + email);
-
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(MainActivityLaourLogin.this, LaborProfile.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
 
-
-        // initCreateAccountTextView();
-        // initViews();
-        // Login button Click Event
         btnlogin.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -104,7 +82,7 @@ public class MainActivityLaourLogin extends AppCompatActivity {
                 // Check for empty data in the form
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // login user
-                    session.createUserLoginSession(email,name);
+                   // session.createUserLoginSession(email,name);
                     checkLogin(email, password);
                 } else {
                     // Prompt user to enter credentials
@@ -134,14 +112,24 @@ public class MainActivityLaourLogin extends AppCompatActivity {
      * function to verify login details in mysql db
      * */
     private void checkLogin(final String email, final String password) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
+        session = new SessionManager(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
 
-        pDialog.setMessage("Logging in ...");
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String refname = user.get(SessionManager.KEY_REFNAME);
+
+
+        String refcode = user.get(SessionManager.KEY_REFCODE);
+
+        String role="Labor";
+
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_LOGINADMIN, new Response.Listener<String>() {
+                AppConfig.URL_LOGINCONTRACTOR, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -154,20 +142,22 @@ public class MainActivityLaourLogin extends AppCompatActivity {
 
                     // Check for error node in json
                     if (!error) {
-                        // user successfully logged in
-                        // Create login session
-                        session.setLogin(true,email);
 
-                        // Now store the user in SQLite
                         String uid = jObj.getString("uid");
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
-                    //   Log.d(TAG, "Name " + name.toString());
-                     //   Log.d(TAG, "Email: " + email.toString());
+                        String refname=user.getString("ref_name");
+                        String refcode=user.getString("ref_code");
+
+
+                        String created_at = user.getString("created_at");
+
+
+                        session.createUserLoginSession(email,name,role,refcode,refname);
+
+                        session.setLogin(true,email);
 
                         Intent intent = new Intent(MainActivityLaourLogin.this,
                                 LaborProfile.class);
@@ -203,16 +193,14 @@ public class MainActivityLaourLogin extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
                 params.put("password", password);
+                params.put("role",role);
+
 
                 return params;
             }
 
         };
-
-        // Adding request to request queue
-        // AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
-        // requestQueue.add(strReq);
         strReq.setRetryPolicy(new DefaultRetryPolicy(
                 10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -221,14 +209,20 @@ public class MainActivityLaourLogin extends AppCompatActivity {
         requestQueue.add(strReq);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
     private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
+        if (!loader.isShowing())
+            loader.show();
     }
 
     private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
+        if (loader.isShowing())
+            loader.dismiss();
     }
 
     @Override

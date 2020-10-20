@@ -5,28 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Contractor.PostJobs">
+    tools:context=".Contractor.PostJobs"
+    android:background="@color/background">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="@dimen/md_50"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:id="@+id/imageglobal"
-            android:layout_gravity="center"
-            android:src="@drawable/logo"></ImageView>
+      <ImageView
+          android:layout_width="@dimen/_150sdp"
+          android:layout_height="@dimen/_150sdp"
+          android:id="@+id/imageglobal"
+          android:layout_gravity="center"
+          android:src="@drawable/logof"></ImageView>
 
 
     </LinearLayout>
@@ -40,105 +40,119 @@
         android:background="@drawable/square_box"
         android:layout_marginTop="@dimen/md_25">
 
-        <com.google.android.material.textfield.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/jobtitle"
+          app:hintTextAppearance="@style/CustomTextAppearance1"
+          android:textColorHint="@color/black">
+
+        <EditText
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:id="@+id/editjobttitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/jobtitle">
+            android:layout_margin="10dp"
+            android:capitalize="words"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="@color/black"
 
-            <EditText
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:id="@+id/editjobttitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                tools:ignore="MissingConstraints"
+            />
 
-                />
+      </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:background="@drawable/square_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/md_25">
 
-        </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:hintTextAppearance="@style/CustomTextAppearance1"
+          android:textColorHint="@color/black"
+          android:hint="@string/jobdetails">
+
+        <EditText
+            android:imeOptions="actionDone"
+            android:maxLines="10"
+            android:id="@+id/editjobdetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:capitalize="words"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="@color/black"
+
+
+            />
+
+      </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:background="@drawable/square_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/md_25">
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textColorHint="@color/black"
+          app:hintTextAppearance="@style/CustomTextAppearance1"
+          android:hint="@string/jobwages">
+
+        <EditText
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:id="@+id/editjobwages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:capitalize="words"
+            android:textSize="@dimen/_15sdp"
+
+            />
+
+      </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_marginLeft="@dimen/md_25"
         android:layout_marginRight="@dimen/md_25"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="@drawable/square_box"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/md_25">
 
-        <com.google.android.material.textfield.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/jobarea"
+          app:hintTextAppearance="@style/CustomTextAppearance1"
+          android:textColorHint="@color/black">
+
+        <EditText
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:capitalize="words"
+            android:id="@+id/editjobarea"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/jobdetails">
+            android:layout_margin="10dp"
+            android:textSize="@dimen/_15sdp"
 
-            <EditText
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:id="@+id/editjobdetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                tools:ignore="MissingConstraints"
 
-                />
+            />
 
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="@dimen/md_25"
-        android:layout_marginRight="@dimen/md_25"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/square_box"
-        android:layout_marginTop="@dimen/md_25">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/jobwages">
-
-            <EditText
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:id="@+id/editjobwages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                tools:ignore="MissingConstraints"
-
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="@dimen/md_25"
-        android:layout_marginRight="@dimen/md_25"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/square_box"
-        android:layout_marginTop="@dimen/md_25">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/jobarea">
-
-            <EditText
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:id="@+id/editjobarea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                tools:ignore="MissingConstraints"
-
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
+      </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
     <Button
         android:text="@string/post"
@@ -147,7 +161,8 @@
         android:id="@+id/submijobdata"
         android:layout_margin="25dp"
         android:textColor="#ffffff"
-        android:background="@color/colorAccent"
+        android:textSize="@dimen/_15sdp"
+        android:background="@drawable/capsulebutton"
         ></Button>
-</LinearLayout>
+  </LinearLayout>
 </ScrollView>

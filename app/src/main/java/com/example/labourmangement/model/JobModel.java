@@ -7,12 +7,47 @@ public class JobModel {
     private String job_wages;
     private String job_area;
 
-    public JobModel(String job_id,String job_title, String job_details, String job_wages, String job_area) {
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    private String date;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role;
+
+
+    public String getContractor_name() {
+        return contractor_name;
+    }
+
+    public void setContractor_name(String contractor_name) {
+        this.contractor_name = contractor_name;
+    }
+
+    private String contractor_name;
+    private String created_by;
+
+    public JobModel(String job_id,String job_title, String job_details, String job_wages, String job_area,String created_by, String contractor_name,String role) {
         this.job_id = this.job_id;
         this.job_title = this.job_title;
         this.job_details = this.job_details;
         this.job_wages = this.job_wages;
         this.job_area = this.job_area;
+        this.created_by = this.created_by;
+        this.contractor_name = this.contractor_name;
+        this.role =this.role;
     }
 
     public JobModel() {
@@ -58,6 +93,13 @@ public class JobModel {
 
     public void setJob_area(String job_area) {
         this.job_area = job_area;
+    }
+    public String getCreated_by() {
+        return created_by;
+    }
+
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
     }
 
 

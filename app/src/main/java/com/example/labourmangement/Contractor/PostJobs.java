@@ -2,7 +2,9 @@ package com.example.labourmangement.Contractor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
+
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,9 +28,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.labourmangement.CustomLoader;
 import com.example.labourmangement.DatabaseConfiguration.AppConfig;
-import com.example.labourmangement.DatabaseHelper.SessionManager;
 import com.example.labourmangement.DatabaseHelper.SessionManagerContractor;
+import com.example.labourmangement.Labour.JobDetails;
+import com.example.labourmangement.Labour.Register_labour;
 import com.example.labourmangement.R;
 
 import org.json.JSONException;
@@ -43,10 +47,11 @@ public class PostJobs extends AppCompatActivity {
 
     EditText etjobtitle,etjobdetails,etjobwages,etjobarea;
     Button btnpost;
-    String jobtittleholder,jobdetailsholder,jobwagesholder,jobareaholder,Emailholder;
+    String jobtittleholder,jobdetailsholder,jobwagesholder,jobareaholder,Emailholder,ContractorNameHolder,roleholder;
     SessionManagerContractor sessionManagerContractor;
-
-    ProgressDialog progressDialog;
+    int flag;
+    //loader loader;
+    CustomLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,22 +61,85 @@ public class PostJobs extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
+
         etjobtitle=(EditText)findViewById(R.id.editjobttitle);
         etjobdetails=(EditText)findViewById(R.id.editjobdetails);
         etjobwages=(EditText)findViewById(R.id.editjobwages);
         etjobarea=(EditText)findViewById(R.id.editjobarea);
         btnpost=(Button)findViewById(R.id.submijobdata);
 
+etjobtitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    @Override
+    public void onFocusChange(View view, boolean b) {
+     Log.d(TAG,"BHANU"+view.getId());
+    }
+});
 
         sessionManagerContractor=new SessionManagerContractor((getApplicationContext()));
 
-        progressDialog = new ProgressDialog(PostJobs.this);
+        loader = new CustomLoader(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
 
 
         btnpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postnewjob();
+
+                sessionManagerContractor.checkLogin();
+                HashMap<String, String> user = sessionManagerContractor.getUserDetails();
+
+                // name
+                String name = user.get(SessionManagerContractor.KEY_NAME);
+
+                // email
+                String email = user.get(SessionManagerContractor.KEY_EMAIL);
+                String role=user.get(SessionManagerContractor.KEY_ROLE);
+                Log.d(TAG, "Email "+email);
+
+
+
+                jobtittleholder= etjobtitle.getText().toString().trim();
+
+                                jobareaholder = etjobarea.getText().toString().trim();
+                jobdetailsholder = etjobdetails.getText().toString().trim();
+                jobwagesholder = etjobwages.getText().toString().trim();
+                Emailholder=email;
+                ContractorNameHolder=name;
+                roleholder=role;
+
+
+                flag=0;
+                if(etjobtitle.getText().toString().length()==0){
+                    etjobtitle.setError(" Enter Job Title");
+                    etjobtitle.requestFocus();
+                    flag=1;
+
+                }
+                flag=0;
+                if(etjobarea.getText().toString().length()==0){
+                    etjobarea.setError(" Enter Job Area");
+                    etjobarea.requestFocus();
+                    flag=1;
+
+                }
+                flag=0;
+                if(etjobdetails.getText().toString().length()==0){
+                    etjobdetails.setError(" Enter Job Details");
+                    etjobdetails.requestFocus();
+                    flag=1;
+
+                }
+                flag=0;
+                if(etjobwages.getText().toString().length()==0){
+                    etjobwages.setError(" Enter Job Wages");
+                    etjobwages.requestFocus();
+                    flag=1;
+
+                }
+
+                if(flag==0){
+                    postnewjob();
+                }
             }
         });
 
@@ -79,25 +147,32 @@ public class PostJobs extends AppCompatActivity {
 
 
     private void postnewjob(){
-        GetValueFromEditText();
-        // Showing progress dialog at user registration time.
-        progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
-        progressDialog.show();
-
+        loader.show();
+        Log.d(TAG, "Inserting Response:hiiiiiiiiiiiiiii ");
+        Log.d(TAG, "ROLE "+roleholder);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_INSERTJOB,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Log.d(TAG, "Inserting Response: " + response.toString());
-                progressDialog.dismiss();
+                Log.d(TAG, "Inserting Response:hiiiiiiiiiiiiiii " + response.toString());
+                loader.dismiss();
                 //hideDialog();
-                Log.i("tagconvertstr", "["+response+"]");
+                Log.i("bhagyaaaaaa", "["+response+"]");
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    Toast.makeText(getApplicationContext(),
-                            jsonObject.getString("message")+response,
-                            Toast.LENGTH_LONG).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(PostJobs.this).create();
+                    alertDialog.setTitle("Job Post ");
+                    alertDialog.setMessage(response);
+                    alertDialog.setIcon(R.drawable.done);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+
 
 
                 } catch (JSONException e) {
@@ -110,45 +185,44 @@ public class PostJobs extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            System.out.println("time out and noConnection...................." + error);
-                            progressDialog.dismiss();
+                            System.out.println("Time Out and NoConnection...................." + error);
+                            loader.dismiss();
                             // hideDialog();
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(PostJobs.this, "Something wrong11", duration).show();
+                            Toast.makeText(PostJobs.this, "Connection Time Out.. Please Check Your Internet Connection", duration).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                             System.out.println("AuthFailureError.........................." + error);
                             // hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(PostJobs.this, "Something wrong22", duration).show();
+                            Toast.makeText(PostJobs.this, "Your Are Not Authrized..", duration).show();
                         } else if (error instanceof ServerError) {
                             System.out.println("server erroer......................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(PostJobs.this, "Something wrong33", duration).show();
+                            Toast.makeText(PostJobs.this, "Server Error", duration).show();
                             //TODO
                         } else if (error instanceof NetworkError) {
                             System.out.println("NetworkError........................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(PostJobs.this, "Something wrong44", duration).show();
+                            Toast.makeText(PostJobs.this, "Please Check Your Internet Connection", duration).show();
                             //TODO
                         } else if (error instanceof ParseError) {
                             System.out.println("parseError............................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(PostJobs.this, "Something wrong55", duration).show();
-                            //TODO
+                            Toast.makeText(PostJobs.this, "Error While Data Parsing", duration).show();
 
+                            //TODO
                         }
                     }
                 }) {
@@ -162,6 +236,8 @@ public class PostJobs extends AppCompatActivity {
                 params.put("job_wages", jobwagesholder);
                 params.put("job_area", jobareaholder);
                 params.put("created_by", Emailholder);
+                params.put("contractor_name", ContractorNameHolder);
+                params.put("role",roleholder);
 
 
 
@@ -176,28 +252,14 @@ public class PostJobs extends AppCompatActivity {
         // Adding the StringRequest object into requestQueue.
         requestQueue.add(stringRequest);
 
+
+        etjobarea.setText("");
+        etjobdetails.setText("");
+        etjobtitle.setText("");
+        etjobwages.setText("");
     }
 
-    // Creating method to get value from EditText.
-    public void GetValueFromEditText(){
-        sessionManagerContractor.checkLogin();
-        HashMap<String, String> user = sessionManagerContractor.getUserDetails();
 
-        // name
-        String name = user.get(SessionManager.KEY_NAME);
-
-        // email
-        String email = user.get(SessionManager.KEY_EMAIL);
-
-        jobtittleholder= etjobtitle.getText().toString().trim();
-        jobareaholder = etjobarea.getText().toString().trim();
-        jobdetailsholder = etjobdetails.getText().toString().trim();
-        jobwagesholder = etjobwages.getText().toString().trim();
-        Emailholder=email;
-
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

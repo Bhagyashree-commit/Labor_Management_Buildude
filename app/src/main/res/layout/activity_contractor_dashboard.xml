@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Contractor.ContractorDashboard">
+    tools:context=".Contractor.ContractorDashboard"
+    android:background="@color/background">
 
 
     <LinearLayout
@@ -14,68 +15,72 @@
 
 
         <TextView
-            android:layout_marginLeft="@dimen/md_25"
-            android:layout_marginRight="@dimen/md_25"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/welcomecontractor"
             android:textColor="@color/colortext"
-            android:textSize="@dimen/md_15"
-            android:layout_marginTop="@dimen/md_25"></TextView>
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_25sdp"></TextView>
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/md_25"
-            android:layout_marginRight="@dimen/md_25"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/square_box"
-            android:layout_marginTop="@dimen/md_25">
+
+            android:layout_marginTop="@dimen/_25sdp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username">
+                android:hint="@string/username"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
+             android:textColor="@color/black"
+               >
 
                 <EditText
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"
                     android:id="@+id/etcontractor_username"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@android:color/transparent"
-                    tools:ignore="MissingConstraints"
-
-                    />
+                    android:layout_height="56dp"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/md_25"
-            android:layout_marginRight="@dimen/md_25"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/square_box"
-            android:layout_marginTop="@dimen/md_25">
+            android:layout_marginTop="@dimen/_25sdp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
                 android:hint="@string/mobnum">
 
                 <EditText
                     android:imeOptions="actionDone"
                     android:maxLines="1"
+                    android:textColor="@color/black"
                     android:id="@+id/etcontractor_mobilenum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:digits="0123456789"
                     android:maxLength="10"
-                    android:background="@android:color/transparent"
-                    tools:ignore="MissingConstraints"
-
+                    android:textSize="@dimen/_15sdp"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -140,6 +145,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
                 android:hint="@string/areaofoperation">
 
                 <EditText
@@ -149,8 +156,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@android:color/transparent"
-                    tools:ignore="MissingConstraints"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="@color/black"
+
 
                     />
 
@@ -159,26 +167,28 @@
         <LinearLayout
             android:layout_marginLeft="@dimen/md_25"
             android:layout_marginRight="@dimen/md_25"
+            android:background="@drawable/square_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/square_box"
+
             android:layout_marginTop="@dimen/md_25">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
                 android:hint="@string/address">
 
                 <EditText
                     android:imeOptions="actionDone"
                     android:maxLines="1"
+                    android:textColor="@color/black"
                     android:id="@+id/etcontractor_postaladdress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@android:color/transparent"
-                    tools:ignore="MissingConstraints"
-
+                    android:textSize="@dimen/_15sdp"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -189,9 +199,9 @@
         <LinearLayout
             android:layout_marginLeft="@dimen/md_25"
             android:layout_marginRight="@dimen/md_25"
+            android:background="@drawable/square_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/square_box"
             android:layout_marginTop="@dimen/md_25">
 
 
@@ -201,8 +211,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/workinghour"
-                android:background="@android:color/transparent"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
+                android:textColorHighlight="@color/black"
                 android:layout_margin="10dp"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="@color/black"
+                android:background="@color/background"
+                android:popupBackground="@color/background"
                 />
 
 
@@ -214,15 +230,17 @@
             android:layout_marginLeft="@dimen/md_25"
             android:layout_marginRight="@dimen/md_25"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:background="@drawable/square_box"
-            android:layout_marginTop="30dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/messageTextInputLayout9"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
                 android:layout_margin="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -230,6 +248,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/requiredlabor"
                     android:editable="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp"
                     android:id="@+id/textactivitytyp"/>
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -247,20 +267,90 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/radio_daily"
                         android:checked="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp"
                         android:text="@string/daily"></RadioButton>
 
                     <RadioButton
                         android:id="@+id/radio_weekly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/_15sdp"
+                        android:textColor="@color/black"
                         android:text="@string/weekly"></RadioButton>
                     <RadioButton
                         android:id="@+id/radio_monthly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/_15sdp"
+                        android:textColor="@color/black"
                         android:text="@string/monthly"></RadioButton>
 
                 </RadioGroup>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="@dimen/md_25"
+            android:layout_marginRight="@dimen/md_25"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/square_box"
+            android:layout_marginTop="@dimen/md_25">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/refrename"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:id="@+id/et_ref_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="@dimen/_15sdp"
+
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/md_25"
+            android:layout_marginRight="@dimen/md_25"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/square_box"
+            android:layout_marginTop="@dimen/md_25">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/refcode"
+                app:hintTextAppearance="@style/CustomTextAppearance1"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:id="@+id/et_ref_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="@dimen/_15sdp"
+
+
+                    />
+
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
         <Button
@@ -269,8 +359,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_submitcontractor"
             android:layout_margin="25dp"
+            android:textSize="@dimen/_15sdp"
             android:textColor="#ffffff"
-            android:background="@color/colorAccent"
+            android:background="@drawable/capsulebutton"
             ></Button>
 
       <!--  <Button

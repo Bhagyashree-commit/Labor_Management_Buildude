@@ -9,22 +9,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.labourmangement.Adapter.AppliedJobsAdapter;
 import com.example.labourmangement.Adapter.JobAdapter;
+import com.example.labourmangement.Contractor.AppliedJobs;
+import com.example.labourmangement.CustomLoader;
 import com.example.labourmangement.DatabaseConfiguration.AppConfig;
 import com.example.labourmangement.DatabaseConfiguration.SharedPrefManager;
+import com.example.labourmangement.DatabaseHelper.SessionManager;
+import com.example.labourmangement.DatabaseHelper.SessionManagerContractor;
 import com.example.labourmangement.R;
+import com.example.labourmangement.model.AppliedJobsModel;
 import com.example.labourmangement.model.JobModel;
 
 import org.json.JSONArray;
@@ -32,8 +45,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class JobOffer extends AppCompatActivity implements JobAdapter.OnItemClickListener {
     private static final String TAG = JobOffer.class.getSimpleName();
@@ -43,6 +58,9 @@ public class JobOffer extends AppCompatActivity implements JobAdapter.OnItemClic
 Button buttonDisplayToken;
 TextView textViewToken;
     List<JobModel> jobmodellist;
+CustomLoader loader;
+    SessionManager session;
+    TextView fetchname;
 
     RequestQueue rq;
    // public  static final String EXTRA_URL = " image_path";
@@ -51,7 +69,8 @@ TextView textViewToken;
     public  static  final  String EXTRA_WAGES = "job_wages";
     public  static  final  String EXTRA_AREA = "job_area";
     public  static  final  String EXTRA_ID = "job_id";
-  //  public  static  final  String EXTRA_DESCRIPTION = "product_description";
+
+    //  public  static  final  String EXTRA_DESCRIPTION = "product_description";
 
 
 
@@ -59,7 +78,7 @@ TextView textViewToken;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_offer);
-
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
         getSupportActionBar().setTitle("Job Offers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -67,6 +86,7 @@ TextView textViewToken;
         //getting views from xml
         textViewToken = (TextView) findViewById(R.id.textViewToken);
         buttonDisplayToken = (Button) findViewById(R.id.buttonDisplayToken);
+        fetchname=(TextView)findViewById(R.id.fetchname);
 
         buttonDisplayToken.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +108,7 @@ TextView textViewToken;
         });
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewContainer);
         recyclerView.setHasFixedSize(true);
+        loader = new CustomLoader(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
 
         layoutManager = new LinearLayoutManager(this);
 
@@ -95,51 +116,85 @@ TextView textViewToken;
 
         jobmodellist = new ArrayList<>();
 
-        sendRequest();
+        sendOffer();
+
+        session = new SessionManager(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+  String role= user.get(SessionManager.KEY_ROLE);
+
+        fetchname=(TextView)findViewById(R.id.fetchname);
+        fetchname.setText(name);
+
     }
 
 
-    public void sendRequest(){
+    public void sendOffer(){
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_GETJOBOFFER,new Response.Listener<String>() {
+    final String role ="contractor";
+
+        //loader.setMessage("Loading...Please Wait..");
+        loader.show();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_GETJOBOFFER,new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response.toString());
+                        Log.d("testttttttt", response);
+
+
+                        loader.dismiss();
 
                         try {
                             //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-                            Log.d(TAG,array.toString());
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = new JSONObject(response);
 
-                                //getting product object from json array
-                                JSONObject job = array.getJSONObject(i);
+                            if(jsonObject.getString("Success").equalsIgnoreCase("true")) {
+                                JSONArray array = jsonObject.getJSONArray("Jobs");
+                                {
+                                    //traversing through all the object
+                                    for (int i = 0; i < array.length(); i++) {
+
+                                        //getting product object from json array
+                                        JSONObject job = array.getJSONObject(i);
+                                        JobModel jobModel = new JobModel();
+                                        //adding the product to product list
+                                        jobModel.setJob_area(job.getString("job_area"));
+                                        jobModel.setJob_title(job.getString("job_title"));
+                                        jobModel.setJob_details(job.getString("job_details"));
+                                        jobModel.setJob_wages(job.getString("job_wages"));
+                                        jobModel.setJob_id(job.getString("job_id"));
+                                        jobModel.setCreated_by(job.getString("created_by"));
+                                        jobModel.setRole(job.getString("role"));
+                                        jobModel.setContractor_name(job.getString("contractor_name"));
+                                        jobModel.setDate(job.getString("post_date"));
 
 
-                               /* jobmodellist.add(new JobModel(
-                                        jobModel.setString("job_title"),
-                                        job.getString("job_details"),
-                                        job.getString("job_wages"),
-                                        job.getString("job_area")
-                                ));*/
-                                //Log.d(TAG,"job 61"+job);
-                                JobModel jobModel = new JobModel();
-                                //adding the product to product list
-                                jobModel.setJob_area(job.getString("job_area"));
-                                      jobModel.setJob_title(  job.getString("job_title"));
-                                       jobModel.setJob_details( job.getString("job_details"));
-                                       jobModel.setJob_wages( job.getString("job_wages"));
-                                jobModel.setJob_id( job.getString("job_id"));
-
-                              jobmodellist.add(jobModel);
+                                        jobmodellist.add(jobModel);
+                                    }
+                                }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),
+                                        jsonObject.getString("message")+response,
+                                        Toast.LENGTH_LONG).show();
                             }
 
-                            Log.d(TAG,"jobgggggggggggggg"+jobmodellist.size());
+
+                            Log.d(TAG, "jobgggggggggggggg" + jobmodellist.size());
                             //creating adapter object and setting it to recyclerview
                             JobAdapter adapter = new JobAdapter(JobOffer.this, jobmodellist);
                             recyclerView.setAdapter(adapter);
+
                         } catch (JSONException e) {
+
+                            Log.e("testerroor",e.toString());
                             e.printStackTrace();
                         }
                     }
@@ -147,9 +202,57 @@ TextView textViewToken;
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            System.out.println("Time Out and NoConnection...................." + error);
+                            loader.dismiss();
+                            // hideDialog();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobOffer.this, "Connection Time Out.. Please Check Your Internet Connection", duration).show();
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                            System.out.println("AuthFailureError.........................." + error);
+                            // hideDialog();
+                            loader.dismiss();
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobOffer.this, "Your Are Not Authrized..", duration).show();
+                        } else if (error instanceof ServerError) {
+                            System.out.println("server erroer......................." + error);
+                            //hideDialog();
+                            loader.dismiss();
 
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobOffer.this, "Server Error", duration).show();
+                            //TODO
+                        } else if (error instanceof NetworkError) {
+                            System.out.println("NetworkError........................." + error);
+                            //hideDialog();
+                            loader.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobOffer.this, "Please Check Your Internet Connection", duration).show();
+                            //TODO
+                        } else if (error instanceof ParseError) {
+                            System.out.println("parseError............................." + error);
+                            //hideDialog();
+                            loader.dismiss();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast.makeText(JobOffer.this, "Error While Data Parsing", duration).show();
+
+                            //TODO
+                        }
                     }
-                });
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("role", role );
+                return params;
+            }
+
+        };
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(this).add(stringRequest);
@@ -199,44 +302,6 @@ TextView textViewToken;
                 this.setContentView(R.layout.activity_job_offer);
                 break;
 
-          /*  case R.id.logout:
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(LabourDashboard.this);
-                alertDialog2.setTitle("Confirm Logout...");
-                alertDialog2.setMessage("Are you sure! you want Logout?");
-
-                alertDialog2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        session.logoutUser();
-
-                        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-                        editor.clear();
-                        editor.commit();
-                        Intent broadcastIntent = new Intent();
-                        broadcastIntent.setAction("com.package.ACTION_LOGOUT");
-                        sendBroadcast(broadcastIntent);
-
-                        Intent intent1 = new Intent(LabourDashboard.this, MainActivity.class);
-                        intent1.putExtra("finish", true);
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent1);
-
-                    }
-                });
-
-                // Setting Negative "NO" Button
-                alertDialog2.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to invoke NO event
-                        Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-                    }
-                });
-
-                // Showing Alert Message
-                alertDialog2.show();
-
-                return true;*/
             default:
                 break;
         }

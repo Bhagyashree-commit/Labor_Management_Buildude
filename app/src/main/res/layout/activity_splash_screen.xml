@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#fff"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/_16sdp"
+    android:paddingLeft="@dimen/_16sdp"
+    android:paddingRight="@dimen/_16sdp"
+    android:paddingTop="@dimen/_16sdp"
     android:id="@+id/lin_lay"
-    android:gravity="center"
-    android:orientation="vertical"
+    android:background="@drawable/bg"
     tools:context=".SplashScreen">
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="180dp"
-        android:id="@+id/logo"
-        android:src="@drawable/logo" />
+  <ImageView
+      android:layout_marginTop="@dimen/_10sdp"
+      android:id="@+id/ivLogo"
+      android:layout_width="@dimen/_150sdp"
+      android:layout_height="@dimen/_100sdp"
+      android:layout_centerHorizontal="true"
+      android:background="@drawable/logof"/>
+
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_alignParentBottom="true"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    <TextView
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textColor="@color/grey_900"
+        android:textSize="@dimen/_20sdp"
+        android:gravity="left"
+        android:text="Presented by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
         android:text="Shantal Consulting Engineers"
-        android:textSize="25sp"
-        android:layout_gravity="center"
-        android:textColor="@color/colortext"></TextView>
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:textColor="@color/red_900"
+        android:textSize="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-</LinearLayout>
+  </LinearLayout>
+
+
+</RelativeLayout>

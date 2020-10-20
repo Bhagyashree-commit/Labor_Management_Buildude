@@ -4,7 +4,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".Contractor.AppliedJobs">
+tools:context=".Contractor.AppliedJobs"
+    android:background="@color/background">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    app:cardElevation="@dimen/_50sdp"
+        >
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recycleViewjobs"
@@ -12,8 +19,9 @@ tools:context=".Contractor.AppliedJobs">
     android:layout_height="match_parent"
     android:clickable="true"
     android:layout_margin="@dimen/md_15"
+    android:outlineSpotShadowColor="@color/red_400"
     android:divider="@color/colorPrimaryDark"
     android:dividerHeight="15dp"/>
 
-
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

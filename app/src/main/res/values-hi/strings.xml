@@ -46,28 +46,70 @@
 
 
 
-    <string name="click">Click Below For Login / Registration</string>
+    <string name="click">लॉगिन / पंजीकरण के लिए नीचे क्लिक करें</string>
     <string name="title_activity_maps">Map</string>
 
 
-    <string name="title_activity_map_tracking">Map Route Tracking</string>
-    <string name="track_path_on_map">Walk and route your path on map</string>
-    <string name="permission_notice">Please note that your location permission is important if you want to draw your route on map while walking or running</string>
-    <string name="permission_title">Location Permission Denied</string>
-    <string name="cancel_permission_notice">Wow, please come back again when you need it and grant the permission</string>
-    <string name="starttracking">Start Tracking</string>
-    <string name="location">Your Location</string>
-    <string name="jobtitle">Enter Job Title</string>
-    <string name="jobdetails">Enter details</string>
-    <string name="jobwages">Enter Job Wages</string>
-    <string name="jobarea">Enter Job Area</string>
+    <string name="title_activity_map_tracking">
+मानचित्र मार्ग ट्रैकिंग</string>
+        <string name="track_path_on_map">
+पैदल चलें और मानचित्र पर अपना रास्ता देखें</string>
+    <string name="permission_notice">
+कृपया ध्यान दें कि यदि आप चलते या दौड़ते समय अपना स्थान मानचित्र पर बनाना चाहते हैं तो आपकी स्थान अनुमति आवश्यक है</string>
+    <string name="permission_title">
+स्थान अनुमति अस्वीकृत</string>
+    <string name="cancel_permission_notice">
+वाह, कृपया फिर से आएं जब आपको इसकी आवश्यकता हो और अनुमति प्रदान करें</string>
+    <string name="starttracking">
+ट्रैकिंग शुरू करें</string>
+    <string name="location">आपकी स्थिति</string>
+    <string name="jobtitle">
+नौकरी का शीर्षक दर्ज करें</string>
+    <string name="jobdetails">	विवरण संचिका दर्ज करें</string>
+    <string name="jobwages">
+जॉब वेज दर्ज करें</string>
+    <string name="jobarea">
+जॉब एरिया डालें</string>
 
-    <string name="post">Post Job</string>
-    <string name="jobtitle1">Job Title : </string>
+    <string name="post">
+नौकरी पोस्ट करें</string>
+    <string name="jobtitle1">
+नौकरी का नाम :</string>
     <string name="jobdetails1">Job Details : </string>
-    <string name="jobarea1">Job Location : </string>
-    <string name="jobwages1">Job Wages : </string>
-    <string name="clicktoapply">Click To Apply For The Job</string>
+    <string name="jobarea1">
+नौकरी करने का स्थान: </string>
+    <string name="jobwages1">
+नौकरी की मजदूरी :</string>
+    <string name="clicktoapply">
+नौकरी के लिए आवेदन करने के लिए क्लिक करें</string>
+
+<string name="registername">
+स्वागत है श्री.  </string>
+    <string name="reg_id">
+    पंजीकृत आई.डी. :</string>
+    <string name="pjob">
+नौकरी पोस्ट करें</string>
+    <string name="profile">प्रोफ़ाइल</string>
+    <string name="appreject">
+स्वीकृत अस्वीकृत</string>
+    <string name="tracklabor">
+ट्रैक लेबर</string>
+
+    <string name="wages">
+वेतन</string>
+    <string name="job">काम</string>
+    <string name="labourname">मज़दूर नाम: </string>
+    <string name="cname">ठेकेदार नाम: </string>
+    <string name="dateofappy">तारीख : </string>
+    <string name="approve">मंजूर</string>
+    <string name="reject"> अस्वीकृत </string>
+    <string name="sendmoney">
+पैसे भेजो</string>
+    <string name="joboffer">
+नौकरी का प्रस्ताव</string>
+    <string name="review">
+समीक्षा</string>
+    <string name="jobstats">काम स्थिति</string>
 
   <!--  <string name="newuser">?????</string>
 -->

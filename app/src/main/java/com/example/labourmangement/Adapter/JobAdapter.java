@@ -18,10 +18,16 @@ import com.example.labourmangement.model.JobModel;
 import java.util.List;
 
 import static com.android.volley.VolleyLog.TAG;
+import static com.example.labourmangement.Adapter.AppliedJobsAdapter.date_time;
+import static com.example.labourmangement.Adapter.AppliedJobsAdapter.getTimeAgo;
 
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
     private Context context;
     private List<JobModel> jobModels;
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public  interface OnItemClickListener{
         void onClick(View view);
@@ -53,8 +59,12 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         holder.job_wages.setText(pu.getJob_wages());
         holder.job_area.setText(pu.getJob_area());
         holder.job_id.setText(pu.getJob_id());
+        holder.created_by.setText(pu.getCreated_by());
+        holder.contractor_name.setText(pu.getContractor_name());
+        holder.role.setText(pu.getRole());
+        holder.date.setText(getTimeAgo(Long.parseLong(pu.getDate())));
 
-        holder.jobtitle.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Product Name: " + jobModels.get(position));
@@ -64,50 +74,13 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
                 intent.putExtra("job_wages",pu.getJob_wages());
              intent.putExtra("job_area",pu.getJob_area());
                 intent.putExtra("job_id",pu.getJob_id());
+                intent.putExtra("created_by",pu.getCreated_by());
+                intent.putExtra("contractor_name",pu.getContractor_name());
 
                 context.startActivity(intent);
             }
         });
-        holder.job_details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Product Name: " + jobModels.get(position));
-                Intent intent = new Intent(context, JobDetails.class);
-                intent.putExtra("job_title", pu.getJob_title());
-                intent.putExtra("job_details", pu.getJob_details());
-                intent.putExtra("job_wages",pu.getJob_wages());
-                intent.putExtra("job_area",pu.getJob_area());
-                intent.putExtra("job_id",pu.getJob_id());
-                context.startActivity(intent);
-            }
-        });
-        holder.job_wages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Product Name: " + jobModels.get(position));
-                Intent intent = new Intent(context, JobDetails.class);
-                intent.putExtra("job_title", pu.getJob_title());
-                intent.putExtra("job_details", pu.getJob_details());
-                intent.putExtra("job_wages",pu.getJob_wages());
-                intent.putExtra("job_area",pu.getJob_area());
-                intent.putExtra("job_id",pu.getJob_id());
-                context.startActivity(intent);
-            }
-        });
 
-        holder.job_area.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Product Name: " + jobModels.get(position));
-                Intent intent = new Intent(context, JobDetails.class);
-                intent.putExtra("job_title", pu.getJob_title());
-                intent.putExtra("job_details", pu.getJob_details());
-                intent.putExtra("job_wages",pu.getJob_wages());
-                intent.putExtra("job_area",pu.getJob_area());
-                intent.putExtra("job_id",pu.getJob_id());
-                context.startActivity(intent);
-            }
-        });
 
     }
 
@@ -123,16 +96,66 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         public TextView job_wages;
         public  TextView job_area;
         public  TextView job_id;
+        public  TextView created_by;
+        public TextView role;
+        public  TextView contractor_name;
+        public  TextView date;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            jobtitle = (TextView) itemView.findViewById(R.id.job_title);
-            job_details = (TextView) itemView.findViewById(R.id.job_details);
-            job_wages = (TextView) itemView.findViewById(R.id.job_wages);
-            job_area = (TextView) itemView.findViewById(R.id.job_area);
-            job_id = (TextView) itemView.findViewById(R.id.job_id);
+            jobtitle = itemView.findViewById(R.id.job_title);
+            job_details = itemView.findViewById(R.id.job_details);
+            job_wages = itemView.findViewById(R.id.job_wages);
+            job_area = itemView.findViewById(R.id.job_area);
+            job_id = itemView.findViewById(R.id.job_id);
+            created_by = itemView.findViewById(R.id.createdby);
+            contractor_name = itemView.findViewById(R.id.createdbyname);
+            role = itemView.findViewById(R.id.role);
+            date = itemView.findViewById(R.id.date);
+
+
 
         }
+
     }
+    public static String getTimeAgo(long time) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+
+
+        }
+        // long now = getCurrentTime(ctx);
+        long now = System.currentTimeMillis();
+
+        if (time > now || time <= 0) {
+            return null;
+        }
+        // TODO: localize
+        final long diff = now - time;
+
+        if (diff < MINUTE_MILLIS) {
+            return "just now";
+        } else if (diff < 2 * MINUTE_MILLIS)
+        {
+            return "a minute ago";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            //mins = diff / MINUTE_MILLIS ;
+            return diff / MINUTE_MILLIS + " minutes ago";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return "an hour ago";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            if((diff/HOUR_MILLIS)==1)
+            {
+                return  "an hour ago";
+            }
+            else {
+                return diff / HOUR_MILLIS + " hours ago";
+            }
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return "yesterday";
+        } else {
+            return date_time;
+        }    }
 }

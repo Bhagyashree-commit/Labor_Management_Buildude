@@ -1,27 +1,20 @@
 package com.example.labourmangement.Labour;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,19 +31,16 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.labourmangement.Adapter.JobAdapter;
+import com.example.labourmangement.Contractor.JobWages;
+import com.example.labourmangement.CustomLoader;
 import com.example.labourmangement.DatabaseConfiguration.AppConfig;
-import com.example.labourmangement.DatabaseConfiguration.NotificationUtils;
 import com.example.labourmangement.DatabaseConfiguration.SharedPrefManager;
 import com.example.labourmangement.DatabaseConfiguration.VolleySingleton;
 import com.example.labourmangement.DatabaseHelper.SessionManager;
 import com.example.labourmangement.DatabaseHelper.SessionManagerContractor;
 import com.example.labourmangement.R;
 import com.example.labourmangement.model.JobModel;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,9 +59,10 @@ public class JobDetails extends AppCompatActivity implements View.OnClickListene
     Spinner spinner;
     SessionManagerContractor sessionManagerContractor;
     ArrayList<JobModel> mjoblist;
-    ProgressDialog progressDialog;
-    String jobtitle, jobdetails, jobwages, jobarea, jobid;
-    TextView name, destcription, area, wages, id, textmgstitle, textmessagebody;
+   CustomLoader loader;
+    TextView fetchname;
+    String jobtitle, jobdetails, jobwages, jobarea, jobid,jobcreatedby,jobcreatedbyname;
+    TextView name, destcription, area, wages, id, jobcreated_by,textmgstitle, textmessagebody,jobcreatedby_name;
 Button buttonSendPush;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -88,15 +79,17 @@ Button buttonSendPush;
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        getIncomingIntent();
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
+        getIncomingIntent1();
         session = new SessionManager(getApplicationContext());
         sessionManagerContractor = new SessionManagerContractor(getApplicationContext());
 
-        progressDialog = new ProgressDialog(JobDetails.this);
+        loader = new CustomLoader(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+
 
         btnclicktoapply = (Button) findViewById(R.id.btnapply);
         textViewToken = (TextView) findViewById(R.id.textViewToken);
+        fetchname=(TextView)findViewById(R.id.fetchname);
 
       //  buttonRegister = (Button) findViewById(R.id.buttonRegister);
         buttonSendPush = (Button) findViewById(R.id.buttonSendNotification);
@@ -126,7 +119,17 @@ Button buttonSendPush;
                 }
             }
         });
+        session = new SessionManager(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
 
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+        fetchname=(TextView)findViewById(R.id.fetchname);
+        fetchname.setText(name);
     }
 
     private void sendData() {
@@ -135,6 +138,8 @@ Button buttonSendPush;
         jobwages = wages.getText().toString();
         jobarea = area.getText().toString();
         jobid = id.getText().toString();
+        jobcreatedby = jobcreated_by.getText().toString();
+
         String status = "Applied";
 
         HashMap<String, String> user = session.getUserDetails();
@@ -145,8 +150,8 @@ Button buttonSendPush;
         // email
         String email = user.get(SessionManager.KEY_EMAIL);
         // Showing progress dialog at user registration time.
-        progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
-        progressDialog.show();
+
+        loader.show();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_INSERTAPPLIEDJOB, new Response.Listener<String>() {
@@ -154,15 +159,25 @@ Button buttonSendPush;
             public void onResponse(String response) {
 
                 Log.d(TAG, "Inserting Response: " + response.toString());
-                progressDialog.dismiss();
+                loader.dismiss();
                 //hideDialog();
                 Log.i("tagconvertstr", "[" + response + "]");
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    Toast.makeText(getApplicationContext(),
-                            jsonObject.getString("message") + response,
-                            Toast.LENGTH_LONG).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(JobDetails.this).create();
+                    alertDialog.setTitle("Job Application ");
+                    alertDialog.setMessage(""+response);
+                    alertDialog.setIcon(R.drawable.done);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+
+
 
 
                 } catch (JSONException e) {
@@ -175,45 +190,44 @@ Button buttonSendPush;
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            System.out.println("time out and noConnection...................." + error);
-                            progressDialog.dismiss();
+                            System.out.println("Time Out and NoConnection...................." + error);
+                            loader.dismiss();
                             // hideDialog();
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(JobDetails.this, "Something wrong11", duration).show();
+                            Toast.makeText(JobDetails.this, "Connection Time Out.. Please Check Your Internet Connection", duration).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                             System.out.println("AuthFailureError.........................." + error);
                             // hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(JobDetails.this, "Something wrong22", duration).show();
+                            Toast.makeText(JobDetails.this, "Your Are Not Authrized..", duration).show();
                         } else if (error instanceof ServerError) {
                             System.out.println("server erroer......................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(JobDetails.this, "Something wrong33", duration).show();
+                            Toast.makeText(JobDetails.this, "Server Error", duration).show();
                             //TODO
                         } else if (error instanceof NetworkError) {
                             System.out.println("NetworkError........................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(JobDetails.this, "Something wrong44", duration).show();
+                            Toast.makeText(JobDetails.this, "Please Check Your Internet Connection", duration).show();
                             //TODO
                         } else if (error instanceof ParseError) {
                             System.out.println("parseError............................." + error);
                             //hideDialog();
-                            progressDialog.dismiss();
+                            loader.dismiss();
 
                             int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(JobDetails.this, "Something wrong55", duration).show();
-                            //TODO
+                            Toast.makeText(JobDetails.this, "Error While Data Parsing", duration).show();
 
+                            //TODO
                         }
                     }
                 }) {
@@ -227,6 +241,9 @@ Button buttonSendPush;
                 params.put("job_wages", jobwages);
                 params.put("job_area", jobarea);
                 params.put("applied_by", email);
+                params.put("created_by", jobcreatedby);
+                params.put("contractor_name", jobcreatedbyname);
+                params.put("labor_name", name);
                 params.put("status", status);
 
                 return params;
@@ -243,48 +260,58 @@ Button buttonSendPush;
     }
 
 
-    private void getIncomingIntent() {
-        Log.d(TAG, "getIncomingIntent: checking for incoming intents.");
+    public void getIncomingIntent1() {
+            Log.d(TAG, "getIncomingIntent: checking for incoming intents.");
 
 
-        if (getIntent().hasExtra("job_title") && getIntent().hasExtra("job_details")) {
-            Log.d(TAG, "getIncomingIntent: found intent extras.");
+            if (getIntent().hasExtra("job_title") && getIntent().hasExtra("job_details")) {
+                Log.d(TAG, "getIncomingIntent: found intent extras.");
 
-            jobtitle = getIntent().getStringExtra("job_title");
-            jobdetails = getIntent().getStringExtra("job_details");
-            jobwages = getIntent().getStringExtra("job_wages");
-            jobarea = getIntent().getStringExtra("job_area");
-            jobid = getIntent().getStringExtra("job_id");
+                jobtitle = getIntent().getStringExtra("job_title");
+                jobdetails = getIntent().getStringExtra("job_details");
+                jobwages = getIntent().getStringExtra("job_wages");
+                jobarea = getIntent().getStringExtra("job_area");
+                jobid = getIntent().getStringExtra("job_id");
+                jobcreatedby = getIntent().getStringExtra("created_by");
+                jobcreatedbyname = getIntent().getStringExtra("contractor_name");
 
-            setImage(jobtitle, jobdetails, jobwages, jobarea, jobid);
-            // setImage( image_path,product_name);
+                setImage1(jobtitle, jobdetails, jobwages, jobarea, jobid,jobcreatedby,jobcreatedbyname);
+                // setImage( image_path,product_name);
+            }
+
+
         }
 
+        @SuppressLint("WrongViewCast")
+        public void setImage1(String job_title, String job_deatils, String job_wages, String job_area, String jobid, String jobcreatedby, String jobcreatedbyname) {
+            {
+                Log.d(TAG, "setImage: setting te image and name to widgets.");
+                //Intent intent=getIntent();
+                // String imagepath=intent.getStringExtra("image_path");
 
-    }
+                name = findViewById(R.id.fetchjobtitle);
+                name.setText(job_title);
 
-    private void setImage(String job_title, String job_deatils, String job_wages, String job_area, String jobid) {
-        {
-            Log.d(TAG, "setImage: setting te image and name to widgets.");
-            //Intent intent=getIntent();
-            // String imagepath=intent.getStringExtra("image_path");
+                destcription = findViewById(R.id.fetchjobdetails);
+                destcription.setText(job_deatils);
 
-            name = findViewById(R.id.fetchjobtitle);
-            name.setText(job_title);
+                wages = findViewById(R.id.fetchjobwages);
+                wages.setText(job_wages);
 
-            destcription = findViewById(R.id.fetchjobdetails);
-            destcription.setText(job_deatils);
+                area = findViewById(R.id.fetchjobarea);
+                area.setText(job_area);
 
-            wages = findViewById(R.id.fetchjobwages);
-            wages.setText(job_wages);
+                id = findViewById(R.id.id);
+                id.setText(jobid);
 
-            area = findViewById(R.id.fetchjobarea);
-            area.setText(job_area);
+                jobcreated_by=findViewById(R.id.fetchjobcreatedby);
+                jobcreated_by.setText(jobcreatedby);
 
-            id = findViewById(R.id.id);
-            id.setText(jobid);
 
-        }
+                jobcreatedby_name=findViewById(R.id.fetchjobcreatedbyname);
+                jobcreatedby_name.setText(jobcreatedbyname);
+
+            }
     }
 
     @Override
@@ -393,14 +420,14 @@ Button buttonSendPush;
         // email
         String email = user.get(SessionManager.KEY_EMAIL);*/
 
-        progressDialog.setMessage("Sending Push");
-        progressDialog.show();
+
+        loader.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SEND_SINGLE_PUSH,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+                        loader.dismiss();
 
                         Toast.makeText(JobDetails.this, response, Toast.LENGTH_LONG).show();
                     }
@@ -433,14 +460,14 @@ Button buttonSendPush;
         final String message = "hello";
         final String image = "heufhedfh";
 
-        progressDialog.setMessage("Sending Push");
-        progressDialog.show();
+
+        loader.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SEND_MULTIPLE_PUSH,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+                        loader.dismiss();
 
                         Toast.makeText(JobDetails.this, response, Toast.LENGTH_LONG).show();
                     }
@@ -478,9 +505,8 @@ Button buttonSendPush;
     }
 
     private void sendTokenToServer() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Registering Device...");
-        progressDialog.show();
+
+        loader.show();
 
         final String token = SharedPrefManager.getInstance(this).getDeviceToken();
         //final String email = editTextEmail.getText().toString();
@@ -494,7 +520,7 @@ Button buttonSendPush;
 
 
         if (token == null) {
-            progressDialog.dismiss();
+            loader.dismiss();
             Toast.makeText(this, "Token not generated", Toast.LENGTH_LONG).show();
             return;
         }
@@ -503,7 +529,7 @@ Button buttonSendPush;
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+                        loader.dismiss();
                         try {
                             JSONObject obj = new JSONObject(response);
                             Toast.makeText(JobDetails.this, obj.getString("message"), Toast.LENGTH_LONG).show();
@@ -515,7 +541,7 @@ Button buttonSendPush;
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
+                        loader.dismiss();
                         Toast.makeText(JobDetails.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
