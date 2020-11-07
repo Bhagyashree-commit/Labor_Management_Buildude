@@ -5,27 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/grey_300"
+    android:background="@color/grey_500"
     tools:context=".Contractor.ContractorProfile">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
+        android:layout_height="match_parent">
 
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-                android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
             android:background="@drawable/bg_shape" />
 
         <ImageView
             android:id="@+id/profile"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_35sdp"
             android:background="@drawable/con_pro"
 
@@ -38,24 +36,23 @@
             android:text="@string/registername"
             android:id="@+id/textfetchusernamecontractor1"
             android:textColor="@color/colortext"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_65sdp"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="@dimen/_15sdp"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:gravity="center"
-
+            android:layout_centerHorizontal="true"
             ></TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textfetchusernamecontractor"
             android:textColor="@color/colortext"
-            android:layout_marginTop="@dimen/_30sdp"
             android:text="user"
-            android:textSize="@dimen/_12sdp"
-            android:layout_toRightOf="@id/textfetchusernamecontractor1"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            android:layout_below="@+id/textfetchusernamecontractor1"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:gravity="center"
+            android:layout_centerInParent="true"
             ></TextView>
 
 
@@ -66,20 +63,20 @@
             android:id="@+id/textfetchuserIdcontractor1"
             android:textColor="@color/colortext"
             android:layout_marginTop="@dimen/_50sdp"
-            android:layout_marginLeft="@dimen/_65sdp"
-            android:textSize="@dimen/_12sdp"
+            android:layout_marginLeft="@dimen/_100sdp"
+            android:textSize="@dimen/_15sdp"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:gravity="center"
-
             ></TextView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ID: "
+            android:textStyle="bold"
             android:id="@+id/textfetchuserIdcontractor"
             android:textColor="@color/colortext"
             android:layout_marginTop="@dimen/_50sdp"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="@dimen/_15sdp"
             android:layout_toRightOf="@+id/textfetchuserIdcontractor1"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:gravity="center"
@@ -91,7 +88,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_70sdp"
        >
 
 
@@ -99,7 +96,7 @@
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_height="@dimen/_130sdp"
             android:orientation="horizontal"
             android:padding="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +110,6 @@
                 android:layout_margin="@dimen/_10sdp"
                 app:cardElevation="@dimen/_15sdp"
                 app:cardCornerRadius="@dimen/_25sdp"
-
                 android:layout_weight="1">
 
                 <RelativeLayout
@@ -217,7 +213,7 @@ android:layout_marginTop="@dimen/_15sdp"
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_230sdp">
+        android:layout_marginTop="@dimen/_190sdp">
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="0dp"
@@ -380,7 +376,7 @@ android:layout_marginTop="@dimen/_15sdp"
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_380sdp"
+            android:layout_marginTop="@dimen/_320sdp"
             >
 
 
@@ -396,46 +392,6 @@ android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints">
 
-
-              <!--  <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_10sdp"
-                    app:cardBackgroundColor="@color/background"
-                    app:cardElevation="@dimen/_15sdp"
-                    app:cardCornerRadius="@dimen/_25sdp"
-                    android:layout_weight="1">
-
-                    <RelativeLayout
-                        android:layout_width="185dp"
-                        android:layout_height="186dp">
-
-                        <ImageView
-                            android:id="@+id/btnwages"
-                            android:layout_width="@dimen/_70sdp"
-                            android:layout_height="@dimen/_70sdp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:padding="@dimen/_5sdp"
-                            app:srcCompat="@drawable/money"
-                            tools:ignore="VectorDrawableCompat"
-
-                            />
-
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/btnwages"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:text="Wages"
-                            android:textAllCaps="false"
-                            android:textColor="@color/fontcolor1"
-                            android:textSize="@dimen/_15sdp" />
-
-
-                    </RelativeLayout></androidx.cardview.widget.CardView>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
@@ -511,11 +467,7 @@ android:layout_marginTop="@dimen/_15sdp"
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_520sdp"
-            >
-
-
-
+            android:layout_marginTop="@dimen/_450sdp">
             <LinearLayout
                 android:id="@+id/linearLayout312"
                 android:layout_width="0dp"

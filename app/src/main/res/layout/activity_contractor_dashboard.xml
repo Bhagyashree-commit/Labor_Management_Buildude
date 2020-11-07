@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:text="@string/welcomecontractor"
             android:textColor="@color/colortext"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_25sdp"></TextView>
 
-        <LinearLayout
+       <!-- <LinearLayout
             android:layout_marginLeft="@dimen/_25sdp"
             android:layout_marginRight="@dimen/_25sdp"
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+        </LinearLayout>-->
     <!--    <LinearLayout
             android:layout_marginLeft="@dimen/md_25"
             android:layout_marginRight="@dimen/md_25"
@@ -152,6 +152,8 @@
                 <EditText
                     android:imeOptions="actionDone"
                     android:maxLines="1"
+                    android:background="@null"
+                    android:backgroundTint="@null"
                     android:id="@+id/etcontractor_areaofoperation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -183,6 +185,8 @@
                 <EditText
                     android:imeOptions="actionDone"
                     android:maxLines="1"
+                    android:background="@null"
+                    android:backgroundTint="@null"
                     android:textColor="@color/black"
                     android:id="@+id/etcontractor_postaladdress"
                     android:layout_width="match_parent"
@@ -209,6 +213,7 @@
             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
                 android:id="@+id/category_workinghours"
                 android:layout_width="match_parent"
+                android:backgroundTint="@null"
                 android:layout_height="wrap_content"
                 android:hint="@string/workinghour"
                 android:textColorHint="@color/black"
@@ -292,7 +297,7 @@
 
 
         </LinearLayout>
-        <LinearLayout
+      <!--  <LinearLayout
             android:layout_marginLeft="@dimen/md_25"
             android:layout_marginRight="@dimen/md_25"
             android:layout_width="match_parent"
@@ -308,8 +313,7 @@
                 android:textColorHint="@color/black">
 
                 <EditText
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"
+                    android:background="@null"
                     android:textColor="@color/black"
                     android:id="@+id/et_ref_name"
                     android:layout_width="match_parent"
@@ -352,7 +356,7 @@
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+        </LinearLayout>-->
         <Button
             android:text="@string/submit"
             android:layout_width="match_parent"

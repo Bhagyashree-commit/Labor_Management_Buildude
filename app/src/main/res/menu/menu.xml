@@ -13,10 +13,12 @@
         android:title="Marathi"/>
 
     <item
-        android:id="@+id/addcart"
-        app:showAsAction="always"
-        android:title="@string/logout"
-        android:icon="@drawable/ic_notification"
-        />
+    android:id="@+id/share"
+    android:title="Share App"
+    />
 
+    <item
+        android:id="@+id/viewjob"
+        android:title="View Job"
+        />
 </menu>

@@ -65,7 +65,8 @@
     <string name="location">आपकी स्थिति</string>
     <string name="jobtitle">
 नौकरी का शीर्षक दर्ज करें</string>
-    <string name="jobdetails">	विवरण संचिका दर्ज करें</string>
+    <string name="jobdetails">
+कार्य की प्रकृति</string>
     <string name="jobwages">
 जॉब वेज दर्ज करें</string>
     <string name="jobarea">
@@ -84,7 +85,7 @@
 नौकरी के लिए आवेदन करने के लिए क्लिक करें</string>
 
 <string name="registername">
-स्वागत है श्री.  </string>
+स्वागत है  </string>
     <string name="reg_id">
     पंजीकृत आई.डी. :</string>
     <string name="pjob">

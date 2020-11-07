@@ -40,6 +40,10 @@
     <string name="presentedby">Presented By</string>
     <string name="click">Click Below For Login / Registration</string>
     <string name="title_activity_maps">Map</string>
+    <string name="Mar">Marathi</string>
+    <string name="Eng">English</string>
+    <string name="Hind">Hindi</string>
+    <string name="preferdlag">Select Language</string>
 
 
     <string name="title_activity_map_tracking">Map Route Tracking</string>
@@ -49,8 +53,8 @@
     <string name="cancel_permission_notice">Wow, please come back again when you need it and grant the permission</string>
     <string name="starttracking">Start Tracking</string>
     <string name="location">Your Location</string>
-    <string name="jobtitle">Enter Job Title</string>
-    <string name="jobdetails">Enter details</string>
+    <string name="jobtitle">Name Of Work</string>
+    <string name="jobdetails">Nature Of Work</string>
     <string name="jobwages">Enter Job Wages Per Day</string>
     <string name="jobarea">Enter Job Area</string>
 
@@ -78,7 +82,7 @@
     <string name="profile">Profile</string>
     <string name="appreject">Approve/Reject</string>
     <string name="tracklabor">Track Labor</string>
-    <string name="registername">Welcome Mr. </string>
+    <string name="registername">Welcome</string>
     <string name="wages">Payment :</string>
 
     <string name="job">Job</string>
@@ -93,8 +97,8 @@
     <string name="jobstats">Job Status</string>
     <string name="paymentStatus">Payment Status</string>
     <string name="alljobs">Posted Jobs</string>
-    <string name="refrename">Enter referral Name</string>
-    <string name="refcode">Enter Refrral Person Mobile Number</string>
+    <string name="refrename">Enter Referral Name</string>
+    <string name="refcode">Enter Referral Person Mobile Number</string>
 
 
 </resources>

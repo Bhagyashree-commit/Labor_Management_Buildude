@@ -19,9 +19,8 @@
         android:orientation="vertical"
         android:layout_width="250dp"
         android:layout_height="100dp"
-        android:layout_marginTop="@dimen/md_50"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
         android:gravity="center">
 
       <ImageView
@@ -34,7 +33,71 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginLeft="@dimen/md_25"
+        android:layout_marginRight="@dimen/md_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:orientation="horizontal">
 
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/messageTextInputLayout9"
+          app:hintTextAppearance="@style/CustomTextAppearance1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textColorHint="@color/white"
+         >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/preferdlag"
+            android:editable="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
+            android:id="@+id/textactivitytyp"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rg_interestedonworking"
+            android:layout_column="0"
+
+            android:layout_marginRight="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:layout_span="3">
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/radio_daily"
+              android:checked="true"
+              android:textColor="@color/white"
+              android:textSize="@dimen/_15sdp"
+              android:text="@string/Eng"></RadioButton>
+
+          <RadioButton
+              android:id="@+id/radio_weekly"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="@dimen/_15sdp"
+              android:textColor="@color/white"
+              android:text="@string/Hind"></RadioButton>
+          <RadioButton
+              android:id="@+id/radio_monthly"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="@dimen/_15sdp"
+              android:textColor="@color/white"
+              android:text="@string/Mar"></RadioButton>
+
+        </RadioGroup>
+      </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -43,14 +106,15 @@
           android:layout_marginLeft="@dimen/md_25"
           android:layout_marginRight="@dimen/md_25"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/md_25">
+          android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_marginTop="@dimen/_14sdp"
+           android:tint="@color/white"
+            android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/user"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +125,7 @@
             >
 
           <EditText
-              android:textSize="@dimen/_13sdp"
+              android:textSize="@dimen/_14sdp"
               android:textColor="@color/white"
               android:imeOptions="actionDone"
               android:maxLines="1"
@@ -86,7 +150,8 @@
 
 
         <ImageView
-            android:layout_marginTop="@dimen/_14sdp"
+            android:tint="@color/white"
+            android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/cellphone"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
@@ -101,7 +166,7 @@
             >
 
           <EditText
-              android:textSize="@dimen/_13sdp"
+              android:textSize="@dimen/_14sdp"
               android:textColor="@color/white"
               android:imeOptions="actionDone"
               android:maxLines="1"
@@ -127,7 +192,8 @@
           android:layout_height="wrap_content"
           >
         <ImageView
-            android:layout_marginTop="@dimen/_14sdp"
+            android:tint="@color/white"
+            android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/key"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
@@ -141,7 +207,7 @@
             app:passwordToggleEnabled="true">
 
           <EditText
-              android:textSize="@dimen/_13sdp"
+              android:textSize="@dimen/_14sdp"
               android:textColor="@color/white"
               android:imeOptions="actionDone"
               android:maxLines="1"
@@ -166,10 +232,12 @@
           >
 
         <ImageView
-            android:layout_marginTop="@dimen/_14sdp"
+            android:tint="@color/white"
+            android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/key"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -180,7 +248,7 @@
 
 
           <EditText
-              android:textSize="@dimen/_13sdp"
+              android:textSize="@dimen/_14sdp"
               android:textColor="@color/white"
               android:textColorHint="@color/white"
               android:imeOptions="actionDone"
@@ -204,7 +272,8 @@
           android:layout_marginTop="@dimen/md_25">
 
         <ImageView
-            android:layout_marginTop="@dimen/_14sdp"
+            android:tint="@color/white"
+            android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/user"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
@@ -218,7 +287,7 @@
             >
 
           <EditText
-              android:textSize="@dimen/_13sdp"
+              android:textSize="@dimen/_14sdp"
               android:textColor="@color/white"
               android:imeOptions="actionDone"
               android:maxLines="1"
@@ -239,10 +308,12 @@
           android:layout_marginTop="@dimen/md_25">
 
         <ImageView
-            android:layout_marginTop="@dimen/_14sdp"
+            android:tint="@color/white"
+            android:layout_marginTop="@dimen/_25sdp"
             android:src="@drawable/user"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -253,7 +324,7 @@
             >
 
           <EditText
-              android:textSize="@dimen/_13sdp"
+              android:textSize="@dimen/_14sdp"
               android:textColor="@color/white"
               android:imeOptions="actionDone"
               android:maxLines="1"
@@ -278,14 +349,15 @@
         android:layout_margin="25dp"
         android:background="@drawable/gradient"
         android:text="@string/signup"
-        android:textColor="#ffffff"></Button>
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/white"></Button>
 
     <LinearLayout
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/md_25"
+        android:layout_marginBottom="@dimen/_25sdp"
         android:gravity="center"
         >
 

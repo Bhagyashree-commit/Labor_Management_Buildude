@@ -24,7 +24,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Contractor.AllJobs"></activity>
+        <activity android:name=".Architect.JobApplyDetailsArch"></activity>
+        <activity android:name=".Contractor.AllJobs" />
         <activity android:name=".Contractor.PaymentStatusContractor" />
         <activity android:name=".Architect.PaymentStatusAR" />
         <activity android:name=".Engineer.WagesApprovalRequestENG" />

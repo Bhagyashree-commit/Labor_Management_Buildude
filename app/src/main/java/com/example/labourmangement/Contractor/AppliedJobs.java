@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -119,15 +120,10 @@ public class AppliedJobs extends AppCompatActivity implements JobAdapter.OnItemC
                                 appliedJobs.setJob_id(job.getString("job_id"));
                                 appliedJobs.setApplied_by(job.getString("applied_by"));
                                 appliedJobs.setCreated_by(job.getString("created_by"));
-
                                 appliedJobs.setLabor_name(job.getString("labor_name"));
                                 appliedJobs.setContractor_name(job.getString("contractor_name"));
                                 appliedJobs.setApproved_status(job.getString("approved_status"));
                                 appliedJobs.setApplied_date(job.getString("applied_date"));
-
-
-
-
                                 joblist.add(appliedJobs);
                             }
                         }
@@ -250,6 +246,19 @@ public class AppliedJobs extends AppCompatActivity implements JobAdapter.OnItemC
                 getBaseContext().getResources().updateConfiguration(config,
                         getBaseContext().getResources().getDisplayMetrics());
                 this.setContentView(R.layout.activity_job_offer);
+                break;
+            case R.id.share:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, download this app!,https://drive.google.com/file/d/1qnIAtbiBw4St_HKagdUE5-2-VFlfLlOc/view?usp=sharing");
+                startActivity(shareIntent);
+
+                break;
+
+            case R.id.viewjob:
+                Intent i3=new Intent(AppliedJobs.this,AllJobs.class);
+                startActivity(i3);
                 break;
 
             default:

@@ -218,12 +218,9 @@ loader.dismiss();
         }
 
     };
-        //adding our stringrequest to queue
-      //Volley.newRequestQueue(this).add(stringRequest);
-        // Creating RequestQueue.
+
         RequestQueue requestQueue = Volley.newRequestQueue(JobStatusApproval.this);
 
-        // Adding the StringRequest object into requestQueue.
         requestQueue.add(stringRequest);
     }
 

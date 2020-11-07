@@ -107,9 +107,10 @@
                 android:id="@+id/fetchjobarea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:text="@string/jobarea1"
                 android:textColor="@color/colortext"
-                android:textSize="@dimen/md_20"></EditText>
+                android:textSize="@dimen/_20sdp"></EditText>
 
 
             <TextView

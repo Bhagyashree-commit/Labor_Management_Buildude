@@ -64,7 +64,8 @@
 आपले स्थान</string>
     <string name="jobtitle">
 नोकरी शीर्षक प्रविष्ट करा</string>
-    <string name="jobdetails"> details ्रविष्ट करा</string>
+    <string name="jobdetails">
+कामाचे स्वरूप</string>
     <string name="jobwages">
 नोकरी मजुरी प्रविष्ट करा</string>
     <string name="jobarea">

@@ -70,11 +70,9 @@ public class ContractorProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractor_profile);
 
-        getSupportActionBar().setTitle("Contractor Dashboard");
+        getSupportActionBar().setTitle("CONTRACTOR DASHBOARD");
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
-       /* getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-*/
+
         btn_profile=(ImageView)findViewById(R.id.btnprofile);
         btn_confirmation=(ImageView)findViewById(R.id.btnconfirmation);
         btn_joboffer=(ImageView)findViewById(R.id.btnjobpost);
@@ -365,8 +363,19 @@ public class ContractorProfile extends AppCompatActivity {
                         getBaseContext().getResources().getDisplayMetrics());
                 this.setContentView(R.layout.activity_contractor_profile);
                 break;
+            case R.id.share:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, download this app!,https://drive.google.com/file/d/1qnIAtbiBw4St_HKagdUE5-2-VFlfLlOc/view?usp=sharing");
+                startActivity(shareIntent);
 
+                break;
 
+            case R.id.viewjob:
+                Intent i3=new Intent(ContractorProfile.this,AllJobs.class);
+                startActivity(i3);
+                break;
 
             default:
                 break;
